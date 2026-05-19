@@ -131,7 +131,7 @@ function AnimatedCounter({ to, prefix = "", suffix = "" }: { to: number; prefix?
    MARQUEE STRIP
 ═══════════════════════════════════════════════════════════════ */
 function Marquee({ dark = false }: { dark?: boolean }) {
-  const items = ["THAYLART", "Visualisation 3D", "Immobilier", "Product Animation", "Cinématique", "Paris"]
+  const items = ["THAYLART", "Visualisation 3D", "Immobilier", "Product Animation", "Cinématique"]
   const repeated = [...items, ...items, ...items]
 
   return (
@@ -350,7 +350,7 @@ export default function ThaylartLanding() {
         >
           <motion.div className="pb-14" variants={stagger} initial="hidden" animate="show">
             <motion.p variants={fadeUp} className="text-[10px] tracking-[0.38em] uppercase text-white/40 mb-7">
-              Studio de visualisation 3D — Paris
+              Studio de visualisation 3D
             </motion.p>
             <motion.h1
               variants={fadeUp}
