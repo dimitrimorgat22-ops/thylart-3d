@@ -214,7 +214,7 @@ function ServiceStrip() {
               className="group py-5 px-3 md:px-6 flex items-center gap-3"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.65 + i * 0.09, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.55, delay: 0.65 + i * 0.09, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
               onMouseEnter={() => setHovered(id)}
               onMouseLeave={() => setHovered(null)}
               whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
@@ -244,7 +244,7 @@ function ServiceStrip() {
             initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
             animate={{ opacity: 1, scale: 1, rotate: 2 }}
             exit={{ opacity: 0, scale: 0.8, rotate: -4 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           >
             <img
               src={SERVICE_PREVIEWS[hovered]}
@@ -267,7 +267,7 @@ const stagger = {
 }
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
 }
 
 export default function ThaylartLanding() {
@@ -298,7 +298,7 @@ export default function ThaylartLanding() {
         className="fixed top-2 left-0 right-0 z-40"
         initial={{ opacity: 0, y: -14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-between">
           <span className="text-sm font-medium tracking-[0.22em] text-white">THAYLART</span>
@@ -382,7 +382,7 @@ export default function ThaylartLanding() {
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
               className="relative"
             >
               <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
@@ -418,7 +418,7 @@ export default function ThaylartLanding() {
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
             >
               <p className="text-[10px] tracking-[0.34em] uppercase text-zinc-400 mb-6">Service 01</p>
               <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-zinc-900">
@@ -475,7 +475,7 @@ export default function ThaylartLanding() {
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
             >
               <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-6">Service 02</p>
               <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-white">
@@ -517,7 +517,7 @@ export default function ThaylartLanding() {
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
             >
               <div className="grid grid-cols-2 gap-4">
                 <TiltCard className="aspect-[3/4] rounded-[1.5rem] group col-span-2">
@@ -553,7 +553,7 @@ export default function ThaylartLanding() {
               initial={{ opacity: 0, y: 36 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
             >
               <p className="text-[10px] tracking-[0.34em] uppercase text-zinc-400 mb-8">Service 03</p>
               <h2
@@ -581,7 +581,7 @@ export default function ThaylartLanding() {
               initial={{ opacity: 0, x: 32 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1, delay: 0.18, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
             >
               <TiltCard className="aspect-[3/4] rounded-[1.5rem] group overflow-hidden">
                 <video
@@ -611,7 +611,7 @@ export default function ThaylartLanding() {
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           >
             <div>
               <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-7">Travailler ensemble</p>
