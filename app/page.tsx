@@ -1,230 +1,649 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useRef, useState, useEffect } from "react"
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+  animate,
+  useInView,
+} from "framer-motion"
 
-export default function PremiumStudioLanding() {
-  const [offset, setOffset] = useState(0)
-  const [zoom, setZoom] = useState(1.08)
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL PROGRESS BAR
+═══════════════════════════════════════════════════════════════ */
+function ScrollProgressBar() {
+  const { scrollYProgress } = useScroll()
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-[2px] bg-white z-[60] origin-left"
+      style={{ scaleX: scrollYProgress }}
+    />
+  )
+}
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffset(window.scrollY * 0.25)
-    }
+/* ═══════════════════════════════════════════════════════════════
+   MAGNETIC BUTTON
+═══════════════════════════════════════════════════════════════ */
+function MagneticButton({
+  children,
+  href,
+  className,
+}: {
+  children: React.ReactNode
+  href?: string
+  className?: string
+}) {
+  const ref = useRef<HTMLAnchorElement>(null)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const sx = useSpring(x, { stiffness: 180, damping: 18 })
+  const sy = useSpring(y, { stiffness: 180, damping: 18 })
 
-    handleScroll()
-    window.addEventListener("scroll", handleScroll)
-
-    let frame: number
-    const animateZoom = () => {
-      setZoom((prev) => (prev < 1.15 ? prev + 0.0003 : prev))
-      frame = requestAnimationFrame(animateZoom)
-    }
-
-    animateZoom()
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      cancelAnimationFrame(frame)
-    }
-  }, [])
+  function onMove(e: React.MouseEvent) {
+    const r = ref.current?.getBoundingClientRect()
+    if (!r) return
+    x.set((e.clientX - (r.left + r.width / 2)) * 0.28)
+    y.set((e.clientY - (r.top + r.height / 2)) * 0.28)
+  }
+  function onLeave() { x.set(0); y.set(0) }
 
   return (
-    <div className="h-screen overflow-y-auto snap-y snap-proximity text-white overflow-x-hidden relative bg-black scroll-smooth">
-      <header className="fixed top-0 left-0 right-0 z-50">
-        <div className="px-6 md:px-10 h-20 flex items-center justify-between">
-          <div className="text-2xl font-medium tracking-tight text-white">THYLART</div>
+    <motion.a
+      ref={ref}
+      href={href}
+      style={{ x: sx, y: sy }}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      whileTap={{ scale: 0.95 }}
+      className={className}
+    >
+      {children}
+    </motion.a>
+  )
+}
 
-          <nav className="hidden md:flex items-center gap-8 text-sm text-white/60">
-            <a href="#" className="hover:text-white transition-colors">Work</a>
-            <a href="#" className="hover:text-white transition-colors">About</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
+/* ═══════════════════════════════════════════════════════════════
+   3D TILT CARD
+═══════════════════════════════════════════════════════════════ */
+function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+  const px = useMotionValue(0)
+  const py = useMotionValue(0)
+  const rotateX = useTransform(py, [-0.5, 0.5], [10, -10])
+  const rotateY = useTransform(px, [-0.5, 0.5], [-10, 10])
+  const glowX = useTransform(px, [-0.5, 0.5], ["0%", "100%"])
+  const glowY = useTransform(py, [-0.5, 0.5], ["0%", "100%"])
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const r = e.currentTarget.getBoundingClientRect()
+    px.set((e.clientX - r.left) / r.width - 0.5)
+    py.set((e.clientY - r.top) / r.height - 0.5)
+  }
+  function onLeave() { px.set(0); py.set(0) }
+
+  return (
+    <motion.div
+      className={`relative overflow-hidden ${className}`}
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 180, damping: 22 }}
+    >
+      {children}
+      {/* Spotlight glow */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(circle at ${glowX} ${glowY}, rgba(255,255,255,0.07) 0%, transparent 60%)`,
+        }}
+      />
+    </motion.div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATED COUNTER
+═══════════════════════════════════════════════════════════════ */
+function AnimatedCounter({ to, prefix = "", suffix = "" }: { to: number; prefix?: string; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true, amount: 0.5 })
+
+  useEffect(() => {
+    if (!inView || !ref.current) return
+    const ctrl = animate(0, to, {
+      duration: 1.8,
+      ease: "easeOut",
+      onUpdate: (v) => {
+        if (ref.current) ref.current.textContent = `${prefix}${Math.round(v)}${suffix}`
+      },
+    })
+    return () => ctrl.stop()
+  }, [inView, to, prefix, suffix])
+
+  return <span ref={ref}>{prefix}0{suffix}</span>
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MARQUEE STRIP
+═══════════════════════════════════════════════════════════════ */
+function Marquee({ dark = false }: { dark?: boolean }) {
+  const items = ["THAYLART", "Visualisation 3D", "Immobilier", "Product Animation", "Cinématique", "Paris"]
+  const repeated = [...items, ...items, ...items]
+
+  return (
+    <div className={`overflow-hidden border-y py-4 ${dark ? "border-white/[0.07] bg-[#18181b]" : "border-zinc-200 bg-zinc-100"}`}>
+      <motion.div
+        className="flex gap-10 whitespace-nowrap"
+        animate={{ x: ["0%", "-33.33%"] }}
+        transition={{ duration: 22, ease: "linear", repeat: Infinity }}
+      >
+        {repeated.map((item, i) => (
+          <span
+            key={i}
+            className={`text-xs tracking-[0.3em] uppercase shrink-0 ${dark ? "text-white/22" : "text-zinc-400"}`}
+          >
+            {item}
+            <span className={`inline-block mx-5 ${dark ? "text-white/10" : "text-zinc-300"}`}>·</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARALLAX IMAGE
+═══════════════════════════════════════════════════════════════ */
+function ParallaxImage({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
+
+  return (
+    <div ref={ref} className="overflow-hidden rounded-[1.5rem] w-full h-full">
+      <motion.img
+        src={src}
+        alt={alt}
+        style={{ y }}
+        className="w-full h-full object-cover will-change-transform scale-110"
+        loading="lazy"
+      />
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SERVICE HOVER PREVIEW — image flottante au survol du strip
+═══════════════════════════════════════════════════════════════ */
+const SERVICE_PREVIEWS: Record<string, string> = {
+  immobilier: "https://picsum.photos/seed/interior-arch-luxury/600/800",
+  product: "https://picsum.photos/seed/product-watch-3d/600/800",
+  cinematique: "https://picsum.photos/seed/cinematic-sequence/600/800",
+}
+
+function ServiceStrip() {
+  const [hovered, setHovered] = useState<string | null>(null)
+  const cursorX = useMotionValue(0)
+  const cursorY = useMotionValue(0)
+  const springX = useSpring(cursorX, { stiffness: 120, damping: 16 })
+  const springY = useSpring(cursorY, { stiffness: 120, damping: 16 })
+
+  function onMouseMove(e: React.MouseEvent) {
+    cursorX.set(e.clientX)
+    cursorY.set(e.clientY)
+  }
+
+  const services = [
+    { id: "immobilier", num: "01", label: "Immobilier", href: "#immobilier" },
+    { id: "product", num: "02", label: "Product Animation", href: "#product-animation" },
+    { id: "cinematique", num: "03", label: "Cinématique", href: "#cinematique" },
+  ]
+
+  return (
+    <div className="relative z-10 border-t border-white/[0.09]" onMouseMove={onMouseMove}>
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
+        <div className="grid grid-cols-3 divide-x divide-white/[0.09]">
+          {services.map(({ id, num, label, href }, i) => (
+            <motion.a
+              key={id}
+              href={href}
+              className="group py-5 px-3 md:px-6 flex items-center gap-3"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.65 + i * 0.09, ease: [0.16, 1, 0.3, 1] }}
+              onMouseEnter={() => setHovered(id)}
+              onMouseLeave={() => setHovered(null)}
+              whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+            >
+              <span className="text-[10px] text-white/22 font-mono shrink-0">{num}</span>
+              <span className="text-xs md:text-sm tracking-wide text-white/50 group-hover:text-white transition-colors duration-300 truncate">
+                {label}
+              </span>
+              <motion.span
+                className="ml-auto text-white/20 shrink-0"
+                animate={{ x: hovered === id ? 5 : 0, color: hovered === id ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.2)" }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                &#8594;
+              </motion.span>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+
+      {/* Floating preview image */}
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            className="fixed z-[55] pointer-events-none w-48 h-64 rounded-2xl overflow-hidden shadow-2xl"
+            style={{ left: springX, top: springY, x: 20, y: -100 }}
+            initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
+            animate={{ opacity: 1, scale: 1, rotate: 2 }}
+            exit={{ opacity: 0, scale: 0.8, rotate: -4 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <img
+              src={SERVICE_PREVIEWS[hovered]}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE
+═══════════════════════════════════════════════════════════════ */
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.11 } },
+}
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } },
+}
+
+export default function ThaylartLanding() {
+  const heroRef = useRef<HTMLElement>(null)
+  const { scrollYProgress: heroProg } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
+  const heroBgY     = useTransform(heroProg, [0, 1], ["0%", "28%"])
+  const heroBgScale = useTransform(heroProg, [0, 1], [1, 1.1])
+  const heroTextY   = useTransform(heroProg, [0, 1], ["0%", "22%"])
+  const heroOpacity = useTransform(heroProg, [0, 0.55], [1, 0])
+
+  return (
+    <div className="overflow-x-hidden" style={{ backgroundColor: "#18181b" }}>
+
+      <ScrollProgressBar />
+
+      {/* Grain */}
+      <div
+        className="fixed inset-0 pointer-events-none z-50"
+        style={{
+          opacity: 0.025,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: "200px 200px",
+        }}
+      />
+
+      {/* ── NAV ─────────────────────────────────────────────── */}
+      <motion.header
+        className="fixed top-2 left-0 right-0 z-40"
+        initial={{ opacity: 0, y: -14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-between">
+          <span className="text-sm font-medium tracking-[0.22em] text-white">THAYLART</span>
+          <nav className="hidden md:flex items-center gap-8">
+            {[
+              { label: "Immobilier", href: "#immobilier" },
+              { label: "Product", href: "#product-animation" },
+              { label: "Cinématique", href: "#cinematique" },
+              { label: "Contact", href: "#contact" },
+            ].map(({ label, href }, i) => (
+              <motion.a
+                key={label}
+                href={href}
+                className="text-xs tracking-[0.16em] uppercase text-white/45 hover:text-white transition-colors duration-300"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.12 + i * 0.07 }}
+              >
+                {label}
+              </motion.a>
+            ))}
           </nav>
         </div>
-      </header>
+      </motion.header>
 
-      <main className="relative snap-start snap-always">
-        <section className="w-full h-screen relative px-6 md:px-10 pt-20 overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center grayscale will-change-transform"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2400&auto=format&fit=crop')",
-              transform: `translateY(${offset}px) scale(${zoom})`,
-            }}
-          />
-
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.50)_0%,rgba(0,0,0,0.30)_45%,rgba(0,0,0,0.72)_100%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.30)_55%,rgba(0,0,0,0.78)_100%)]" />
-
-          <div className="relative z-10 w-full h-full flex flex-col">
-            <div className="flex-1 w-full flex items-center justify-center -translate-y-6 md:-translate-y-10">
-              <div className="w-full">
-                <div className="grid md:grid-cols-3 gap-8 md:gap-10 max-w-6xl mx-auto items-center justify-center">
-                  <a
-                    href="#immobilier"
-                    className="group relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-xl min-h-[340px] md:min-h-[480px] p-8 md:p-10 flex flex-col justify-end transition-all duration-700 hover:scale-[1.04] hover:rotate-[-1deg]"
-                  >
-                    <div
-                      className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:scale-110 transition-transform duration-1000"
-                      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop')" }}
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.18)_35%,rgba(0,0,0,0.78)_100%)]" />
-                    <div className="relative z-10 transform transition-all duration-700 group-hover:translate-y-[-6px]">
-                      <p className="text-xs uppercase tracking-[0.28em] text-white/45 mb-3">Service 01</p>
-                      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Immobilier</h2>
-                      <p className="mt-3 text-sm md:text-base text-white/60 max-w-xs leading-7">
-                        Visualisations pour valoriser un bien et accélérer la projection.
-                      </p>
-                    </div>
-                  </a>
-
-                  <a
-                    href="#product-animation"
-                    className="group relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-xl min-h-[340px] md:min-h-[480px] p-8 md:p-10 flex flex-col justify-end transition-all duration-700 hover:scale-[1.04] hover:rotate-[-1deg]"
-                  >
-                    <div
-                      className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:scale-110 transition-transform duration-1000"
-                      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop')" }}
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.18)_35%,rgba(0,0,0,0.78)_100%)]" />
-                    <div className="relative z-10 transform transition-all duration-700 group-hover:translate-y-[-6px]">
-                      <p className="text-xs uppercase tracking-[0.28em] text-white/45 mb-3">Service 02</p>
-                      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Product Animation</h2>
-                      <p className="mt-3 text-sm md:text-base text-white/60 max-w-xs leading-7">
-                        Mise en scène d’objets, matière, mouvement et présence visuelle.
-                      </p>
-                    </div>
-                  </a>
-
-                  <a
-                    href="#cinematique"
-                    className="group relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-xl min-h-[340px] md:min-h-[480px] p-8 md:p-10 flex flex-col justify-end transition-all duration-700 hover:scale-[1.04] hover:rotate-[-1deg]"
-                  >
-                    <div
-                      className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:scale-110 transition-transform duration-1000"
-                      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop')" }}
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.18)_35%,rgba(0,0,0,0.78)_100%)]" />
-                    <div className="relative z-10 transform transition-all duration-700 group-hover:translate-y-[-6px]">
-                      <p className="text-xs uppercase tracking-[0.28em] text-white/45 mb-3">Service 03</p>
-                      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Cinématique</h2>
-                      <p className="mt-3 text-sm md:text-base text-white/60 max-w-xs leading-7">
-                        Séquences immersives, émotion, tension et langage filmique.
-                      </p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute bottom-8 left-0 right-0 px-6 md:px-10 flex items-end justify-between z-20">
-              <div className="text-4xl md:text-5xl font-semibold tracking-tight">
-                THYLART
-              </div>
-
-              <div className="hidden md:block max-w-[240px] text-sm leading-6 text-white/60 text-right">
-                3D visual identity
-                <br />
-                for contemporary spaces
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* IMMOBILIER */}
-      <section id="immobilier" className="relative min-h-screen snap-start snap-always flex items-center border-t border-white/10 overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage:"url('https://images.unsplash.com/photo-1505691723518-36a5ac3b2b95?q=80&w=2000&auto=format&fit=crop')"}} />
-        <div className="absolute inset-0 bg-black/70" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
-          <div className="grid md:grid-cols-[1.05fr_0.95fr] gap-14 md:gap-20 items-center">
-            <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-white/40 mb-5">Immobilier</p>
-              <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-tight max-w-2xl">
-                Des visuels pensés pour valoriser un bien et accélérer la projection.
-              </h2>
-              <p className="mt-7 max-w-xl text-white/60 leading-8">
-                Rendus intérieurs, extérieurs et avant / après pour aider agences, investisseurs
-                et particuliers à révéler immédiatement le potentiel d’un espace.
-              </p>
-            </div>
-
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-[2rem] border border-white/10 overflow-hidden relative shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
-                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage:"url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop')"}} />
-                <div className="absolute inset-0 bg-black/50" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PRODUCT */}
-      <section id="product-animation" className="relative min-h-screen snap-start snap-always flex items-center border-t border-white/10 overflow-hidden">
-        {/* Video background */}
-        <video
-          className="absolute inset-0 w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
+      {/* ── HERO ─────────────────────────────────────────────── */}
+      <section ref={heroRef} className="relative min-h-[100dvh] flex flex-col overflow-hidden">
+        {/* Vidéo de fond */}
+        <motion.div
+          className="absolute inset-0 will-change-transform overflow-hidden"
+          style={{ y: heroBgY, scale: heroBgScale }}
         >
-          <source src="https://cdn.coverr.co/videos/coverr-spinning-watch-8636/1080p.mp4" type="video/mp4" />
-        </video>
-        {/* Overlay for readability */}
-        <div className="absolute inset-0 bg-black/70" />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.5) saturate(0.9)" }}
+          >
+            <source src="/ROLEX.mp4" type="video/mp4" />
+          </video>
+        </motion.div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.15)_0%,rgba(24,24,27,0)_25%,rgba(24,24,27,0.55)_70%,rgba(24,24,27,1)_100%)]" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
-          <div className="grid md:grid-cols-[0.95fr_1.05fr] gap-14 md:gap-20 items-center">
-            <div className="relative md:order-1 order-2">
-              <div className="aspect-[4/5] rounded-[2rem] border border-white/10 overflow-hidden relative shadow-[0_20px_80px_rgba(0,0,0,0.38)]">
-                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage:"url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1600&auto=format&fit=crop')"}} />
-                <div className="absolute inset-0 bg-black/50" />
-              </div>
-            </div>
+        <motion.div
+          className="relative z-10 flex-1 max-w-7xl mx-auto px-6 md:px-10 w-full flex flex-col justify-end pb-0"
+          style={{ y: heroTextY, opacity: heroOpacity }}
+        >
+          <motion.div className="pb-14" variants={stagger} initial="hidden" animate="show">
+            <motion.p variants={fadeUp} className="text-[10px] tracking-[0.38em] uppercase text-white/40 mb-7">
+              Studio de visualisation 3D — Paris
+            </motion.p>
+            <motion.h1
+              variants={fadeUp}
+              className="font-semibold tracking-[-0.045em] leading-none text-white"
+              style={{ fontSize: "clamp(3.8rem, 11vw, 10.5rem)" }}
+            >
+              THAYLART
+            </motion.h1>
+            <motion.p variants={fadeUp} className="mt-5 text-base md:text-xl text-white/55 max-w-[42ch] leading-relaxed">
+              Immobilier, product animation et cinématique —{" "}
+              <span className="text-white/80">des visuels 3D qui marquent.</span>
+            </motion.p>
+          </motion.div>
+        </motion.div>
 
-            <div className="md:order-2 order-1">
-              <p className="text-sm uppercase tracking-[0.3em] text-white/40 mb-5">Product Animation</p>
-              <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-tight max-w-2xl">
-                Des animations produit conçues pour révéler matière, détail et présence.
+        <ServiceStrip />
+      </section>
+
+      {/* ── MARQUEE ──────────────────────────────────────────── */}
+      <Marquee dark />
+
+      {/* ── IMMOBILIER — fond clair ───────────────────────────── */}
+      <section id="immobilier" className="relative min-h-[100dvh] flex items-center py-24 bg-zinc-100">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+
+            {/* Vidéo Parfum */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+              className="relative"
+            >
+              <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source src="/parfum.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.3)_0%,transparent_55%)] rounded-[1.5rem]" />
+              </TiltCard>
+
+              {/* Stat flottante avec compteur animé */}
+              <motion.div
+                className="absolute -bottom-5 -right-5 md:-bottom-7 md:-right-7 bg-white border border-zinc-200 rounded-2xl px-5 py-4 shadow-2xl"
+                initial={{ opacity: 0, scale: 0.7 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: 0.45, type: "spring", stiffness: 130, damping: 14 }}
+              >
+                <p className="text-2xl font-semibold tracking-tight text-zinc-900">
+                  <AnimatedCounter to={37} prefix="+" />
+                </p>
+                <p className="text-[11px] text-zinc-400 mt-0.5 tracking-wide">projets livrés</p>
+              </motion.div>
+            </motion.div>
+
+            {/* Text */}
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className="text-[10px] tracking-[0.34em] uppercase text-zinc-400 mb-6">Service 01</p>
+              <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-zinc-900">
+                Des visuels pensés<br />pour valoriser<br />et convaincre.
               </h2>
-              <p className="mt-7 max-w-xl text-white/60 leading-8">
-                Mise en scène, mouvement, lumière et rythme visuel pour transformer un objet
-                en expérience premium, impactante et mémorable.
+              <p className="mt-7 text-zinc-500 leading-[1.85] max-w-[44ch]">
+                Rendus intérieurs, extérieurs et avant/après. Chaque image est construite pour
+                aider agences, investisseurs et particuliers à révéler le potentiel d&apos;un
+                espace — immédiatement.
               </p>
-            </div>
+
+              {/* Aperçu vidéo compact */}
+              <motion.div
+                className="mt-10"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: 0.32 }}
+              >
+                <TiltCard className="aspect-video rounded-xl group cursor-pointer overflow-hidden">
+                  <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                    <source src="/parfum.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute bottom-3 left-3">
+                    <span className="text-[10px] tracking-[0.2em] uppercase text-white/50">Visualisation produit</span>
+                  </div>
+                </TiltCard>
+              </motion.div>
+
+              <div className="mt-10">
+                <MagneticButton
+                  href="#contact"
+                  className="inline-flex items-center gap-2 bg-zinc-900 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:bg-zinc-800 transition-colors duration-200 cursor-pointer"
+                >
+                  Demander un devis
+                </MagneticButton>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CINEMATIQUE */}
-      <section id="cinematique" className="relative min-h-screen snap-start snap-always flex items-center border-t border-white/10 overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage:"url('https://images.unsplash.com/photo-1497032205916-ac775f0649ae?q=80&w=2000&auto=format&fit=crop')"}} />
-        <div className="absolute inset-0 bg-black/80" />
+      {/* ── MARQUEE ──────────────────────────────────────────── */}
+      <Marquee />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
-          <div className="grid md:grid-cols-[1.05fr_0.95fr] gap-14 md:gap-20 items-center">
+      {/* ── PRODUCT ANIMATION — fond sombre ──────────────────── */}
+      <section id="product-animation" className="relative min-h-[100dvh] flex items-center py-24" style={{ backgroundColor: "#18181b" }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+
+            {/* Text */}
+            <motion.div
+              className="order-2 md:order-1"
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-6">Service 02</p>
+              <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-white">
+                Matière, lumière,<br />mouvement —<br />présence totale.
+              </h2>
+              <p className="mt-7 text-white/45 leading-[1.85] max-w-[44ch]">
+                Mise en scène d&apos;objets, textures et rythmes visuels pour transformer un produit
+                en expérience premium — impactante et mémorable.
+              </p>
+
+              {/* Stats row */}
+              <div className="mt-10 grid grid-cols-2 gap-6 border-t border-white/[0.08] pt-10">
+                {[
+                  { value: 12, suffix: " marques", label: "accompagnées" },
+                  { value: 4, suffix: " ans", label: "d'expérience" },
+                ].map(({ value, suffix, label }) => (
+                  <div key={label}>
+                    <p className="text-3xl font-semibold tracking-tight text-white">
+                      <AnimatedCounter to={value} suffix={suffix} />
+                    </p>
+                    <p className="text-xs text-white/35 mt-1 tracking-wide">{label}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-10">
+                <MagneticButton
+                  href="#contact"
+                  className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:border-white/45 hover:bg-white/[0.06] transition-all duration-200 cursor-pointer"
+                >
+                  Voir les réalisations
+                </MagneticButton>
+              </div>
+            </motion.div>
+
+            {/* Vidéo ROLEX + image */}
+            <motion.div
+              className="order-1 md:order-2"
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="grid grid-cols-2 gap-4">
+                <TiltCard className="aspect-[3/4] rounded-[1.5rem] group col-span-2">
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover rounded-[1.5rem]"
+                  >
+                    <source src="/ROLEX.mp4" type="video/mp4" />
+                  </video>
+                  <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between pointer-events-none">
+                    <span className="text-[10px] tracking-[0.22em] uppercase text-white/50">Rendu 3D</span>
+                    <span className="text-[10px] tracking-[0.22em] uppercase text-white/50">Rolex</span>
+                  </div>
+                </TiltCard>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── MARQUEE ──────────────────────────────────────────── */}
+      <Marquee dark />
+
+      {/* ── CINÉMATIQUE — fond clair ──────────────────────────── */}
+      <section id="cinematique" className="relative min-h-[100dvh] flex items-center py-24 bg-zinc-100">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
+          <div className="grid md:grid-cols-[1fr_0.7fr] gap-12 md:gap-16 items-center">
+
+            <motion.div
+              initial={{ opacity: 0, y: 36 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className="text-[10px] tracking-[0.34em] uppercase text-zinc-400 mb-8">Service 03</p>
+              <h2
+                className="font-semibold tracking-tight leading-none text-zinc-900"
+                style={{ fontSize: "clamp(2.6rem, 6vw, 5.5rem)" }}
+              >
+                Séquences<br />immersives à<br />forte portée<br />émotionnelle.
+              </h2>
+              <p className="mt-9 text-zinc-500 leading-[1.9] max-w-[40ch] text-lg">
+                Approche narrative — ambiance, univers, tension. Chaque image donne
+                une sensation de film.
+              </p>
+              <div className="mt-10">
+                <MagneticButton
+                  href="#contact"
+                  className="inline-flex items-center gap-2 bg-zinc-900 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:bg-zinc-800 transition-colors duration-200 cursor-pointer"
+                >
+                  Démarrer un projet
+                </MagneticButton>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 32 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 1, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <TiltCard className="aspect-[3/4] rounded-[1.5rem] group overflow-hidden">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source src="/voiture.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.25)_0%,transparent_50%)]" />
+                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end pointer-events-none">
+                  <span className="text-[10px] tracking-[0.2em] uppercase text-white/50">Cinématique 3D</span>
+                </div>
+              </TiltCard>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ───────────────────────────────────────────── */}
+      <section id="contact" className="relative py-36" style={{ backgroundColor: "#18181b" }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <motion.div
+            className="grid md:grid-cols-[1fr_auto] gap-12 items-end"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          >
             <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-white/40 mb-5">Cinématique</p>
-              <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-tight max-w-2xl">
-                Des séquences visuelles immersives à forte portée émotionnelle.
+              <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-7">Travailler ensemble</p>
+              <h2
+                className="font-semibold tracking-tight leading-none text-white"
+                style={{ fontSize: "clamp(2.8rem, 8vw, 7rem)" }}
+              >
+                Un projet<br />en tête ?
               </h2>
-              <p className="mt-7 max-w-xl text-white/60 leading-8">
-                Une approche plus narrative, pensée pour créer une ambiance, installer un univers
-                et donner à chaque image une sensation de film.
+              <p className="mt-8 text-white/40 leading-[1.85] max-w-[38ch]">
+                Décrivez votre besoin — je reviens sous 24h avec une proposition
+                adaptée à votre budget et calendrier.
               </p>
             </div>
-
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-[2rem] border border-white/10 overflow-hidden relative shadow-[0_20px_80px_rgba(0,0,0,0.4)]">
-                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage:"url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1600&auto=format&fit=crop')"}} />
-                <div className="absolute inset-0 bg-black/50" />
-              </div>
-            </div>
-          </div>
+            <MagneticButton
+              href="mailto:dimitrimorgat@thaylart.com"
+              className="inline-flex items-center gap-3 bg-white text-zinc-950 font-medium px-7 py-4 rounded-full text-sm hover:bg-zinc-100 transition-colors duration-200 whitespace-nowrap cursor-pointer"
+            >
+              dimitrimorgat@thaylart.com
+            </MagneticButton>
+          </motion.div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/[0.06] py-8" style={{ backgroundColor: "#18181b" }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
+          <span className="text-xs text-white/25 tracking-[0.2em]">THAYLART</span>
+          <span className="text-xs text-white/20">&#169; 2025</span>
+        </div>
+      </footer>
+
     </div>
   )
 }
