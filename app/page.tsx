@@ -304,25 +304,43 @@ export default function ThaylartLanding() {
       >
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-between">
           <span className="text-sm font-medium tracking-[0.22em] text-white">THAYLART</span>
-          <nav className="hidden md:flex items-center gap-8">
-            {[
-              { label: "Visualisation Produit", href: "#visualisation-produit" },
-              { label: "Product Animation", href: "#product-animation" },
-              { label: "Cinématique", href: "#cinematique" },
-              { label: "Contact", href: "#contact" },
-            ].map(({ label, href }, i) => (
-              <motion.a
-                key={label}
-                href={href}
-                className="text-xs tracking-[0.16em] uppercase text-white/45 hover:text-white transition-colors duration-300"
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.12 + i * 0.07 }}
-              >
-                {label}
-              </motion.a>
-            ))}
-          </nav>
+          <div className="flex items-center gap-6 md:gap-8">
+            <nav className="hidden md:flex items-center gap-8">
+              {[
+                { label: "Visualisation Produit", href: "#visualisation-produit" },
+                { label: "Product Animation", href: "#product-animation" },
+                { label: "Cinématique", href: "#cinematique" },
+                { label: "Portfolio", href: "#portfolio" },
+                { label: "À propos", href: "#a-propos" },
+                { label: "Contact", href: "#contact" },
+              ].map(({ label, href }, i) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  className="text-xs tracking-[0.16em] uppercase text-white/45 hover:text-white transition-colors duration-300"
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.12 + i * 0.07 }}
+                >
+                  {label}
+                </motion.a>
+              ))}
+            </nav>
+            <motion.a
+              href="https://www.instagram.com/thaylartonline/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram Thaylart"
+              className="text-white/45 hover:text-white transition-colors duration-300"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-[18px] h-[18px]">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </motion.a>
+          </div>
         </div>
       </motion.header>
 
@@ -364,6 +382,9 @@ export default function ThaylartLanding() {
             <motion.p variants={fadeUp} className="mt-5 text-base md:text-xl text-white/55 max-w-[42ch] leading-relaxed">
               Visualisation produit, animations et cinématique —{" "}
               <span className="text-white/80">des visuels 3D qui marquent.</span>
+            </motion.p>
+            <motion.p variants={fadeUp} className="mt-7 text-[10px] tracking-[0.34em] uppercase text-white/35">
+              Artisans · Marques premium · E-commerce exigeant
             </motion.p>
           </motion.div>
         </motion.div>
@@ -415,6 +436,7 @@ export default function ThaylartLanding() {
               <p className="mt-7 text-zinc-500 leading-[1.85] max-w-[44ch]">
                 Mise en scène de produits avec textures, reflets et détails sur-mesure.
                 Des visuels 3D qui donnent à chaque objet une présence premium — impactante et mémorable.
+                Pensé pour les maisons de bijoux, parfum et marques e-commerce exigeantes.
               </p>
 
               {/* Aperçu vidéo compact */}
@@ -469,15 +491,15 @@ export default function ThaylartLanding() {
                 Précision, éclat,<br />détail —<br />l&apos;excellence en mouvement.
               </h2>
               <p className="mt-7 text-white/45 leading-[1.85] max-w-[44ch]">
-                Animations de produits haute fidélité — montres, accessoires, objets de luxe.
+                Animations de produits haute fidélité — bijoux, parfums, montres et accessoires de luxe.
                 Chaque séquence révèle la valeur intrinsèque de votre produit.
               </p>
 
               {/* Stats row */}
               <div className="mt-10 grid grid-cols-2 gap-6 border-t border-white/[0.08] pt-10">
                 {[
-                  { value: 12, suffix: " marques", label: "accompagnées" },
-                  { value: 4, suffix: " ans", label: "d'expérience" },
+                  { value: 24, suffix: "h", label: "délai de réponse" },
+                  { value: 100, suffix: "%", label: "sur-mesure" },
                 ].map(({ value, suffix, label }) => (
                   <div key={label}>
                     <p className="text-3xl font-semibold tracking-tight text-white">
@@ -490,7 +512,7 @@ export default function ThaylartLanding() {
 
               <div className="mt-10">
                 <MagneticButton
-                  href="#contact"
+                  href="#portfolio"
                   className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:border-white/45 hover:bg-white/[0.06] transition-all duration-200 cursor-pointer"
                 >
                   Voir les réalisations
@@ -551,7 +573,7 @@ export default function ThaylartLanding() {
               </h2>
               <p className="mt-9 text-zinc-500 leading-[1.9] max-w-[40ch] text-lg">
                 Approche narrative — ambiance, univers, tension. Chaque image donne
-                une sensation de film.
+                une sensation de film. Idéale pour lancements de produit et campagnes de marque premium.
               </p>
               <div className="mt-10">
                 <MagneticButton
@@ -586,6 +608,203 @@ export default function ThaylartLanding() {
                 </div>
               </TiltCard>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PORTFOLIO / RÉALISATIONS ──────────────────────────── */}
+      <section id="portfolio" className="relative py-32 md:py-40" style={{ backgroundColor: "#0f0f11" }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+
+          {/* Header de section */}
+          <motion.div
+            className="mb-24 md:mb-32"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          >
+            <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-7">Portfolio</p>
+            <h2 className="font-semibold tracking-tight leading-[1.05] text-white" style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)" }}>
+              Réalisations.<br />Chaque image,<br />un univers.
+            </h2>
+            <p className="mt-8 text-white/45 leading-[1.85] max-w-[52ch]">
+              Une sélection de visualisations produit, animations et modèles 3D interactifs.
+              Chaque pièce explore une matière, une lumière, une narration propre.
+            </p>
+          </motion.div>
+
+          {/* Pièces */}
+          <div className="space-y-32 md:space-y-48">
+
+            {/* ── 01 — Parfum vidéo ────────────────────────────── */}
+            <div className="grid md:grid-cols-[1.15fr_0.85fr] gap-10 md:gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
+                  <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                    <source src="/parfum.mp4" type="video/mp4" />
+                  </video>
+                </TiltCard>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-5">Pièce 01 — Visualisation produit</p>
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.15] text-white">
+                  Capsule olfactive.
+                </h3>
+                <p className="mt-6 text-white/50 leading-[1.85] max-w-[42ch]">
+                  Mise en scène cinématographique d&apos;un flacon de parfum. Lumière, reflets, texture du verre — chaque détail orchestré pour suggérer la matière sans la toucher.
+                </p>
+              </motion.div>
+            </div>
+
+            {/* ── 02 — Rolex animation ──────────────────────────── */}
+            <div className="grid md:grid-cols-[0.85fr_1.15fr] gap-10 md:gap-16 items-center">
+              <motion.div
+                className="order-2 md:order-1"
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-5">Pièce 02 — Product Animation</p>
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.15] text-white">
+                  Rolex Submariner.
+                </h3>
+                <p className="mt-6 text-white/50 leading-[1.85] max-w-[42ch]">
+                  Animation horlogère haute fidélité. Caméra orbitale et lumière calibrée pour révéler la précision mécanique et l&apos;éclat du métal.
+                </p>
+              </motion.div>
+              <motion.div
+                className="order-1 md:order-2"
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 1, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
+                  <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                    <source src="/ROLEX.mp4" type="video/mp4" />
+                  </video>
+                </TiltCard>
+              </motion.div>
+            </div>
+
+            {/* ── 03 — Cinématique voiture ──────────────────────── */}
+            <div className="grid md:grid-cols-[1.15fr_0.85fr] gap-10 md:gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <TiltCard className="aspect-video rounded-[1.5rem] group overflow-hidden">
+                  <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                    <source src="/voiture.mp4" type="video/mp4" />
+                  </video>
+                </TiltCard>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-5">Pièce 03 — Cinématique</p>
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.15] text-white">
+                  Cinématique<br />automobile.
+                </h3>
+                <p className="mt-6 text-white/50 leading-[1.85] max-w-[42ch]">
+                  Séquence narrative pensée comme un plan de film. Lumière, mouvement, atmosphère — une voiture devient un personnage.
+                </p>
+              </motion.div>
+            </div>
+
+          </div>
+
+          {/* CTA bas de portfolio */}
+          <motion.div
+            className="mt-32 md:mt-40 flex justify-center"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          >
+            <MagneticButton
+              href="#contact"
+              className="inline-flex items-center gap-2 bg-white text-zinc-950 text-sm font-medium px-7 py-4 rounded-full hover:bg-zinc-100 transition-colors duration-200 cursor-pointer"
+            >
+              Discuter d&apos;un projet
+            </MagneticButton>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* ── À PROPOS ──────────────────────────────────────────── */}
+      <section id="a-propos" className="relative py-36" style={{ backgroundColor: "#18181b" }}>
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <div className="grid md:grid-cols-[0.85fr_1fr] gap-12 md:gap-20 items-center">
+
+            {/* Photo */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+            >
+              <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
+                <img
+                  src="/Portrait.jpg"
+                  alt="Dimitri Morgat — fondateur de Thaylart"
+                  className="w-full h-full object-cover grayscale"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.35)_0%,transparent_45%)] pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end pointer-events-none">
+                  <span className="text-[10px] tracking-[0.22em] uppercase text-white/55">Dimitri Morgat</span>
+                  <span className="text-[10px] tracking-[0.22em] uppercase text-white/55">Fondateur</span>
+                </div>
+              </TiltCard>
+            </motion.div>
+
+            {/* Texte */}
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+            >
+              <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-7">À propos</p>
+              <h2
+                className="font-semibold tracking-tight leading-[1.05] text-white"
+                style={{ fontSize: "clamp(2.4rem, 5.5vw, 4.5rem)" }}
+              >
+                L&apos;artisan derrière<br />les pixels.
+              </h2>
+              <p className="mt-8 text-white/55 leading-[1.85] max-w-[48ch]">
+                Passé par l&apos;ESCE et voyageur passionné, j&apos;ai fondé Thaylart pour porter une approche 3D différente — sensible aux détails, attentive à l&apos;identité de chaque marque, et entièrement sur-mesure.
+              </p>
+              <p className="mt-5 text-white/45 leading-[1.85] max-w-[48ch]">
+                Chaque collaboration est calibrée à votre univers et à vos objectifs. Pas de modèles préfabriqués, pas de compromis sur la qualité — uniquement des visuels conçus pour vous.
+              </p>
+
+              <div className="mt-10 pt-8 border-t border-white/[0.08] flex flex-wrap gap-x-8 gap-y-3 text-xs tracking-[0.18em] uppercase text-white/35">
+                <span>Auto-entrepreneur</span>
+                <span>Saint-Nazaire · Gard</span>
+                <span>Studio Thaylart</span>
+              </div>
+            </motion.div>
+
           </div>
         </div>
       </section>
@@ -627,7 +846,26 @@ export default function ThaylartLanding() {
       <footer className="border-t border-white/[0.06] py-8" style={{ backgroundColor: "#18181b" }}>
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
           <span className="text-xs text-white/25 tracking-[0.2em]">THAYLART</span>
-          <span className="text-xs text-white/20">&#169; 2026</span>
+          <div className="flex items-center gap-6">
+            <a
+              href="/mentions-legales"
+              className="text-xs text-white/25 hover:text-white/70 transition-colors duration-300 tracking-wide"
+            >
+              Mentions légales
+            </a>
+            <a
+              href="https://www.instagram.com/thaylartonline/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram Thaylart"
+              className="text-white/25 hover:text-white/70 transition-colors duration-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <span className="text-xs text-white/20">&#169; 2026</span>
+          </div>
         </div>
       </footer>
 

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "THAYLART — Studio de visualisation 3D",
-  description: "Immobilier, product animation et cinématique — des visuels 3D construits pour marquer durablement.",
+  description: "Visualisation produit, animations et cinématique 3D — des visuels construits pour marquer durablement.",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
