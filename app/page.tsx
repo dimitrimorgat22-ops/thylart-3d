@@ -471,7 +471,7 @@ function ServiceStrip() {
   return (
     <div className="relative z-10 border-t border-white/[0.09]">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="grid grid-cols-3 divide-x divide-white/[0.09]">
+        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/[0.09]">
           {services.map(({ id, num, label, href }, i) => (
             <motion.a
               key={id}
@@ -657,6 +657,7 @@ export default function ThaylartLanding() {
 
         {/* Modèle 3D flottant — hors flux */}
         <motion.div
+          className="hidden md:block"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -676,7 +677,7 @@ export default function ThaylartLanding() {
         </motion.div>
 
         <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
-          <div className="flex justify-end">
+          <div className="flex md:justify-end">
 
             {/* Text — décalé à droite */}
             <motion.div
@@ -1091,7 +1092,7 @@ export default function ThaylartLanding() {
             </div>
             <MagneticButton
               onClick={(e) => { e.preventDefault(); setContactOpen(true); }}
-              className="inline-flex items-center gap-3 bg-white text-zinc-950 font-medium px-7 py-4 rounded-full text-sm hover:bg-zinc-100 transition-colors duration-200 whitespace-nowrap cursor-pointer"
+              className="inline-flex w-full md:w-auto justify-center items-center gap-3 bg-white text-zinc-950 font-medium px-7 py-4 rounded-full text-sm hover:bg-zinc-100 transition-colors duration-200 cursor-pointer"
             >
               Envoyer un message
             </MagneticButton>
@@ -1101,7 +1102,7 @@ export default function ThaylartLanding() {
 
       {/* Footer */}
       <footer className="border-t border-white/[0.06] py-8" style={{ backgroundColor: "#18181b" }}>
-        <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex flex-wrap items-center justify-between gap-y-3">
           <span className="text-xs text-white/25 tracking-[0.2em]">THAYLART</span>
           <div className="flex items-center gap-6">
             <a
