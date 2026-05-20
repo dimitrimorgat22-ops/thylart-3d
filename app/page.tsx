@@ -33,10 +33,12 @@ function ScrollProgressBar() {
 function MagneticButton({
   children,
   href,
+  onClick,
   className,
 }: {
   children: React.ReactNode
   href?: string
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
   className?: string
 }) {
   const ref = useRef<HTMLAnchorElement>(null)
@@ -57,6 +59,7 @@ function MagneticButton({
     <motion.a
       ref={ref}
       href={href}
+      onClick={onClick}
       style={{ x: sx, y: sy }}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
@@ -65,6 +68,281 @@ function MagneticButton({
     >
       {children}
     </motion.a>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTACT MODAL — formulaire de contact via Web3Forms
+═══════════════════════════════════════════════════════════════ */
+const WEB3FORMS_ACCESS_KEY = "700da8b5-f345-4c67-b8c7-22f285bd8a34"
+
+function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [errorMsg, setErrorMsg] = useState("")
+
+  useEffect(() => {
+    if (!isOpen) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose() }
+    window.addEventListener("keydown", onKey)
+    document.body.style.overflow = "hidden"
+    return () => {
+      window.removeEventListener("keydown", onKey)
+      document.body.style.overflow = ""
+    }
+  }, [isOpen, onClose])
+
+  useEffect(() => {
+    if (isOpen) {
+      setStatus("idle")
+      setErrorMsg("")
+    }
+  }, [isOpen])
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus("loading")
+    setErrorMsg("")
+
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY)
+    formData.append("from_name", "Site Thaylart")
+    formData.append("subject", "Nouvelle demande via le site Thaylart")
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      })
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus("success")
+        form.reset()
+      } else {
+        setStatus("error")
+        setErrorMsg(data.message || "Une erreur est survenue. Réessayez ou contactez directement par email.")
+      }
+    } catch {
+      setStatus("error")
+      setErrorMsg("Impossible d'envoyer le message. Vérifiez votre connexion.")
+    }
+  }
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          {/* Backdrop */}
+          <motion.div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+
+          {/* Modal */}
+          <motion.div
+            className="relative w-full max-w-2xl bg-zinc-950 border border-white/[0.08] rounded-2xl overflow-hidden shadow-2xl"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          >
+            {/* Close button */}
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Fermer le formulaire"
+              className="absolute top-5 right-5 z-10 text-white/40 hover:text-white transition-colors duration-200 cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5">
+                <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" />
+              </svg>
+            </button>
+
+            {/* Header */}
+            <div className="px-8 md:px-10 pt-10 pb-6 border-b border-white/[0.06]">
+              <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-3">Formulaire de contact</p>
+              <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-white">
+                Parlons de votre projet.
+              </h3>
+              <p className="mt-3 text-sm text-white/45 leading-relaxed">
+                Décrivez votre besoin, je reviens sous 24h avec une proposition adaptée.
+              </p>
+            </div>
+
+            {/* Body */}
+            {status === "success" ? (
+              <div className="px-8 md:px-10 py-16 text-center">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto mb-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 text-emerald-400">
+                    <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <h4 className="text-xl font-semibold text-white mb-2">Message envoyé.</h4>
+                <p className="text-sm text-white/45 mb-8 max-w-sm mx-auto">
+                  Je reviens vers vous très vite, sous 24h en général. À bientôt.
+                </p>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="text-xs tracking-[0.18em] uppercase text-white/45 hover:text-white transition-colors duration-200 cursor-pointer"
+                >
+                  Fermer
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="px-8 md:px-10 py-8 space-y-5 max-h-[70vh] overflow-y-auto">
+                {/* Nom */}
+                <div>
+                  <label htmlFor="contact-name" className="block text-xs tracking-[0.18em] uppercase text-white/45 mb-2">
+                    Nom complet *
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    name="name"
+                    required
+                    disabled={status === "loading"}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-white placeholder-white/25 text-sm focus:outline-none focus:border-white/30 transition-colors duration-200"
+                    placeholder="Votre nom"
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label htmlFor="contact-email" className="block text-xs tracking-[0.18em] uppercase text-white/45 mb-2">
+                    Email *
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    name="email"
+                    required
+                    disabled={status === "loading"}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-white placeholder-white/25 text-sm focus:outline-none focus:border-white/30 transition-colors duration-200"
+                    placeholder="votre@email.com"
+                  />
+                </div>
+
+                {/* Entreprise */}
+                <div>
+                  <label htmlFor="contact-company" className="block text-xs tracking-[0.18em] uppercase text-white/45 mb-2">
+                    Entreprise
+                  </label>
+                  <input
+                    id="contact-company"
+                    type="text"
+                    name="company"
+                    disabled={status === "loading"}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-white placeholder-white/25 text-sm focus:outline-none focus:border-white/30 transition-colors duration-200"
+                    placeholder="Nom de votre marque ou société"
+                  />
+                </div>
+
+                {/* Type de projet + Budget en grid */}
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="contact-projectType" className="block text-xs tracking-[0.18em] uppercase text-white/45 mb-2">
+                      Type de projet
+                    </label>
+                    <select
+                      id="contact-projectType"
+                      name="projectType"
+                      disabled={status === "loading"}
+                      defaultValue=""
+                      className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors duration-200 cursor-pointer"
+                    >
+                      <option value="" className="bg-zinc-950">Sélectionnez un service</option>
+                      <option value="Visualisation Produit" className="bg-zinc-950">Visualisation Produit</option>
+                      <option value="Product Animation" className="bg-zinc-950">Product Animation</option>
+                      <option value="Cinématique" className="bg-zinc-950">Cinématique</option>
+                      <option value="Autre" className="bg-zinc-950">Autre / Sur-mesure</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="contact-budget" className="block text-xs tracking-[0.18em] uppercase text-white/45 mb-2">
+                      Budget indicatif
+                    </label>
+                    <select
+                      id="contact-budget"
+                      name="budget"
+                      disabled={status === "loading"}
+                      defaultValue=""
+                      className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors duration-200 cursor-pointer"
+                    >
+                      <option value="" className="bg-zinc-950">À préciser</option>
+                      <option value="Moins de 1 000 €" className="bg-zinc-950">Moins de 1 000 €</option>
+                      <option value="1 000 - 3 000 €" className="bg-zinc-950">1 000 - 3 000 €</option>
+                      <option value="3 000 - 5 000 €" className="bg-zinc-950">3 000 - 5 000 €</option>
+                      <option value="5 000 € et plus" className="bg-zinc-950">5 000 € et plus</option>
+                      <option value="À discuter" className="bg-zinc-950">À discuter</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label htmlFor="contact-message" className="block text-xs tracking-[0.18em] uppercase text-white/45 mb-2">
+                    Votre projet *
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    required
+                    rows={5}
+                    disabled={status === "loading"}
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-white placeholder-white/25 text-sm focus:outline-none focus:border-white/30 transition-colors duration-200 resize-none"
+                    placeholder="Décrivez votre besoin, votre produit, votre calendrier..."
+                  />
+                </div>
+
+                {/* Honeypot anti-spam Web3Forms */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  className="hidden"
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+
+                {/* Error message */}
+                {status === "error" && (
+                  <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
+                    {errorMsg}
+                  </p>
+                )}
+
+                {/* Submit */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="w-full bg-white text-zinc-950 font-medium px-6 py-3.5 rounded-full text-sm hover:bg-zinc-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    {status === "loading" ? "Envoi en cours..." : "Envoyer le message"}
+                  </button>
+                </div>
+
+                <p className="text-[10px] text-white/30 text-center pt-2 leading-relaxed">
+                  Vos données sont uniquement utilisées pour répondre à votre demande.
+                  Elles ne sont ni stockées chez un tiers, ni partagées.
+                </p>
+              </form>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
@@ -273,6 +551,7 @@ const fadeUp = {
 }
 
 export default function ThaylartLanding() {
+  const [contactOpen, setContactOpen] = useState(false)
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress: heroProg } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroBgY     = useTransform(heroProg, [0, 1], ["0%", "28%"])
@@ -833,10 +1112,10 @@ export default function ThaylartLanding() {
               </p>
             </div>
             <MagneticButton
-              href="mailto:dimitrimorgat@thaylart.com"
+              onClick={(e) => { e.preventDefault(); setContactOpen(true); }}
               className="inline-flex items-center gap-3 bg-white text-zinc-950 font-medium px-7 py-4 rounded-full text-sm hover:bg-zinc-100 transition-colors duration-200 whitespace-nowrap cursor-pointer"
             >
-              dimitrimorgat@thaylart.com
+              Envoyer un message
             </MagneticButton>
           </motion.div>
         </div>
@@ -868,6 +1147,9 @@ export default function ThaylartLanding() {
           </div>
         </div>
       </footer>
+
+      {/* Contact Modal */}
+      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
 
     </div>
   )
