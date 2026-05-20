@@ -1,6 +1,8 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
+import dynamic from "next/dynamic"
+const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false })
 import {
   motion,
   useScroll,
@@ -131,7 +133,7 @@ function AnimatedCounter({ to, prefix = "", suffix = "" }: { to: number; prefix?
    MARQUEE STRIP
 ═══════════════════════════════════════════════════════════════ */
 function Marquee({ dark = false }: { dark?: boolean }) {
-  const items = ["THAYLART", "Visualisation 3D", "Immobilier", "Product Animation", "Cinématique"]
+  const items = ["THAYLART", "Visualisation 3D", "Visualisation Produit", "Product Animation", "Cinématique"]
   const repeated = [...items, ...items, ...items]
 
   return (
@@ -180,7 +182,7 @@ function ParallaxImage({ src, alt }: { src: string; alt: string }) {
    SERVICE HOVER PREVIEW — image flottante au survol du strip
 ═══════════════════════════════════════════════════════════════ */
 const SERVICE_PREVIEWS: Record<string, string> = {
-  immobilier: "https://picsum.photos/seed/interior-arch-luxury/600/800",
+  "visualisation-produit": "https://picsum.photos/seed/product-watch-3d/600/800",
   product: "https://picsum.photos/seed/product-watch-3d/600/800",
   cinematique: "https://picsum.photos/seed/cinematic-sequence/600/800",
 }
@@ -198,7 +200,7 @@ function ServiceStrip() {
   }
 
   const services = [
-    { id: "immobilier", num: "01", label: "Immobilier", href: "#immobilier" },
+    { id: "visualisation-produit", num: "01", label: "Visualisation Produit", href: "#visualisation-produit" },
     { id: "product", num: "02", label: "Product Animation", href: "#product-animation" },
     { id: "cinematique", num: "03", label: "Cinématique", href: "#cinematique" },
   ]
@@ -279,7 +281,7 @@ export default function ThaylartLanding() {
   const heroOpacity = useTransform(heroProg, [0, 0.55], [1, 0])
 
   return (
-    <div className="overflow-x-hidden" style={{ backgroundColor: "#18181b" }}>
+    <div className="overflow-x-clip" style={{ backgroundColor: "#18181b" }}>
 
       <ScrollProgressBar />
 
@@ -304,8 +306,8 @@ export default function ThaylartLanding() {
           <span className="text-sm font-medium tracking-[0.22em] text-white">THAYLART</span>
           <nav className="hidden md:flex items-center gap-8">
             {[
-              { label: "Immobilier", href: "#immobilier" },
-              { label: "Product", href: "#product-animation" },
+              { label: "Visualisation Produit", href: "#visualisation-produit" },
+              { label: "Product Animation", href: "#product-animation" },
               { label: "Cinématique", href: "#cinematique" },
               { label: "Contact", href: "#contact" },
             ].map(({ label, href }, i) => (
@@ -360,7 +362,7 @@ export default function ThaylartLanding() {
               THAYLART
             </motion.h1>
             <motion.p variants={fadeUp} className="mt-5 text-base md:text-xl text-white/55 max-w-[42ch] leading-relaxed">
-              Immobilier, product animation et cinématique —{" "}
+              Visualisation produit, animations et cinématique —{" "}
               <span className="text-white/80">des visuels 3D qui marquent.</span>
             </motion.p>
           </motion.div>
@@ -373,61 +375,46 @@ export default function ThaylartLanding() {
       <Marquee dark />
 
       {/* ── IMMOBILIER — fond clair ───────────────────────────── */}
-      <section id="immobilier" className="relative min-h-[100dvh] flex items-center py-24 bg-zinc-100">
+      <section id="visualisation-produit" className="relative min-h-[100dvh] flex items-center py-24 bg-zinc-100" style={{ overflow: "visible" }}>
+
+        {/* Modèle 3D flottant — hors flux */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 1.2 }}
+          style={{
+            position: "absolute",
+            left: "-2%",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "52%",
+            height: "130%",
+            zIndex: 20,
+            pointerEvents: "none",
+          }}
+        >
+          <ModelViewer src="/Parfumnouveaux.glb" className="w-full h-full" />
+        </motion.div>
+
         <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+          <div className="flex justify-end">
 
-            {/* Vidéo Parfum */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-              className="relative"
-            >
-              <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                >
-                  <source src="/parfum.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.3)_0%,transparent_55%)] rounded-[1.5rem]" />
-              </TiltCard>
-
-              {/* Stat flottante avec compteur animé */}
-              <motion.div
-                className="absolute -bottom-5 -right-5 md:-bottom-7 md:-right-7 bg-white border border-zinc-200 rounded-2xl px-5 py-4 shadow-2xl"
-                initial={{ opacity: 0, scale: 0.7 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: 0.45, type: "spring", stiffness: 130, damping: 14 }}
-              >
-                <p className="text-2xl font-semibold tracking-tight text-zinc-900">
-                  <AnimatedCounter to={37} prefix="+" />
-                </p>
-                <p className="text-[11px] text-zinc-400 mt-0.5 tracking-wide">projets livrés</p>
-              </motion.div>
-            </motion.div>
-
-            {/* Text */}
+            {/* Text — décalé à droite */}
             <motion.div
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              className="w-full md:w-1/2"
             >
               <p className="text-[10px] tracking-[0.34em] uppercase text-zinc-400 mb-6">Service 01</p>
               <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-zinc-900">
-                Des visuels pensés<br />pour valoriser<br />et convaincre.
+                Matière, lumière,<br />mouvement —<br />présence totale.
               </h2>
               <p className="mt-7 text-zinc-500 leading-[1.85] max-w-[44ch]">
-                Rendus intérieurs, extérieurs et avant/après. Chaque image est construite pour
-                aider agences, investisseurs et particuliers à révéler le potentiel d&apos;un
-                espace — immédiatement.
+                Mise en scène de produits avec textures, reflets et détails sur-mesure.
+                Des visuels 3D qui donnent à chaque objet une présence premium — impactante et mémorable.
               </p>
 
               {/* Aperçu vidéo compact */}
@@ -479,11 +466,11 @@ export default function ThaylartLanding() {
             >
               <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-6">Service 02</p>
               <h2 className="text-3xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-white">
-                Matière, lumière,<br />mouvement —<br />présence totale.
+                Précision, éclat,<br />détail —<br />l&apos;excellence en mouvement.
               </h2>
               <p className="mt-7 text-white/45 leading-[1.85] max-w-[44ch]">
-                Mise en scène d&apos;objets, textures et rythmes visuels pour transformer un produit
-                en expérience premium — impactante et mémorable.
+                Animations de produits haute fidélité — montres, accessoires, objets de luxe.
+                Chaque séquence révèle la valeur intrinsèque de votre produit.
               </p>
 
               {/* Stats row */}
@@ -640,7 +627,7 @@ export default function ThaylartLanding() {
       <footer className="border-t border-white/[0.06] py-8" style={{ backgroundColor: "#18181b" }}>
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
           <span className="text-xs text-white/25 tracking-[0.2em]">THAYLART</span>
-          <span className="text-xs text-white/20">&#169; 2025</span>
+          <span className="text-xs text-white/20">&#169; 2026</span>
         </div>
       </footer>
 
