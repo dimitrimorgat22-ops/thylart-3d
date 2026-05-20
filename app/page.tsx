@@ -457,25 +457,10 @@ function ParallaxImage({ src, alt }: { src: string; alt: string }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SERVICE HOVER PREVIEW — image flottante au survol du strip
+   SERVICE STRIP — barre des 3 services sous le Hero
 ═══════════════════════════════════════════════════════════════ */
-const SERVICE_PREVIEWS: Record<string, string> = {
-  "visualisation-produit": "https://picsum.photos/seed/product-watch-3d/600/800",
-  product: "https://picsum.photos/seed/product-watch-3d/600/800",
-  cinematique: "https://picsum.photos/seed/cinematic-sequence/600/800",
-}
-
 function ServiceStrip() {
   const [hovered, setHovered] = useState<string | null>(null)
-  const cursorX = useMotionValue(0)
-  const cursorY = useMotionValue(0)
-  const springX = useSpring(cursorX, { stiffness: 120, damping: 16 })
-  const springY = useSpring(cursorY, { stiffness: 120, damping: 16 })
-
-  function onMouseMove(e: React.MouseEvent) {
-    cursorX.set(e.clientX)
-    cursorY.set(e.clientY)
-  }
 
   const services = [
     { id: "visualisation-produit", num: "01", label: "Visualisation Produit", href: "#visualisation-produit" },
@@ -484,7 +469,7 @@ function ServiceStrip() {
   ]
 
   return (
-    <div className="relative z-10 border-t border-white/[0.09]" onMouseMove={onMouseMove}>
+    <div className="relative z-10 border-t border-white/[0.09]">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         <div className="grid grid-cols-3 divide-x divide-white/[0.09]">
           {services.map(({ id, num, label, href }, i) => (
@@ -514,26 +499,6 @@ function ServiceStrip() {
           ))}
         </div>
       </div>
-
-      {/* Floating preview image */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            className="fixed z-[55] pointer-events-none w-48 h-64 rounded-2xl overflow-hidden shadow-2xl"
-            style={{ left: springX, top: springY, x: 20, y: -100 }}
-            initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
-            animate={{ opacity: 1, scale: 1, rotate: 2 }}
-            exit={{ opacity: 0, scale: 0.8, rotate: -4 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-          >
-            <img
-              src={SERVICE_PREVIEWS[hovered]}
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }
@@ -552,12 +517,21 @@ const fadeUp = {
 
 export default function ThaylartLanding() {
   const [contactOpen, setContactOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   const heroRef = useRef<HTMLElement>(null)
   const { scrollYProgress: heroProg } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
   const heroBgY     = useTransform(heroProg, [0, 1], ["0%", "28%"])
   const heroBgScale = useTransform(heroProg, [0, 1], [1, 1.1])
-  const heroTextY   = useTransform(heroProg, [0, 1], ["0%", "22%"])
-  const heroOpacity = useTransform(heroProg, [0, 0.55], [1, 0])
+  const heroTextY   = useTransform(heroProg, [0, 1], ["0%", "40%"])
+  const heroOpacity = useTransform(heroProg, [0, 0.25, 0.45, 1], [1, 0.5, 0, 0])
 
   return (
     <div className="overflow-x-clip" style={{ backgroundColor: "#18181b" }}>
@@ -576,7 +550,11 @@ export default function ThaylartLanding() {
 
       {/* ── NAV ─────────────────────────────────────────────── */}
       <motion.header
-        className="fixed top-2 left-0 right-0 z-40"
+        className={`fixed left-0 right-0 z-40 transition-all duration-300 ${
+          scrolled
+            ? "top-0 bg-zinc-950/80 backdrop-blur-md border-b border-white/[0.06]"
+            : "top-2 bg-transparent"
+        }`}
         initial={{ opacity: 0, y: -14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
