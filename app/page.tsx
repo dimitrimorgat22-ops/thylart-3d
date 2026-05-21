@@ -799,7 +799,7 @@ export default function ThaylartLanding() {
                   </video>
                   <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between pointer-events-none">
                     <span className="text-[10px] tracking-[0.22em] uppercase text-white/50">Rendu 3D</span>
-                    <span className="text-[10px] tracking-[0.22em] uppercase text-white/50">Rolex</span>
+                    <span className="text-[10px] tracking-[0.22em] uppercase text-white/30">Concept non officiel — non affilié à Rolex SA</span>
                   </div>
                 </TiltCard>
               </div>
