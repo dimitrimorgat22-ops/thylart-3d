@@ -620,6 +620,9 @@ export default function ThaylartLanding() {
           </video>
         </motion.div>
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.15)_0%,rgba(24,24,27,0)_25%,rgba(24,24,27,0.55)_70%,rgba(24,24,27,1)_100%)]" />
+        <div className="absolute bottom-20 right-6 md:right-10 pointer-events-none z-10">
+          <span className="text-[9px] tracking-[0.18em] uppercase text-white/20">Concept non officiel — non affilié à Rolex SA</span>
+        </div>
 
         <motion.div
           className="relative z-10 flex-1 max-w-7xl mx-auto px-6 md:px-10 w-full flex flex-col justify-end pb-0"
@@ -953,6 +956,9 @@ export default function ThaylartLanding() {
                   <video autoPlay muted loop playsInline className="w-full h-full object-cover">
                     <source src="/ROLEX.mp4" type="video/mp4" />
                   </video>
+                  <div className="absolute bottom-3 left-3 right-3 flex justify-end pointer-events-none">
+                    <span className="text-[9px] tracking-[0.18em] uppercase text-white/30">Concept non officiel — non affilié à Rolex SA</span>
+                  </div>
                 </TiltCard>
               </motion.div>
             </div>
