@@ -280,10 +280,10 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                       className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-white/30 transition-colors duration-200 cursor-pointer"
                     >
                       <option value="" className="bg-zinc-950">À préciser</option>
-                      <option value="Moins de 1 000 €" className="bg-zinc-950">Moins de 1 000 €</option>
-                      <option value="1 000 - 3 000 €" className="bg-zinc-950">1 000 - 3 000 €</option>
-                      <option value="3 000 - 5 000 €" className="bg-zinc-950">3 000 - 5 000 €</option>
-                      <option value="5 000 € et plus" className="bg-zinc-950">5 000 € et plus</option>
+                      <option value="Moins de 300 €" className="bg-zinc-950">Moins de 300 €</option>
+                      <option value="300 € – 800 €" className="bg-zinc-950">300 € – 800 €</option>
+                      <option value="800 € – 2 000 €" className="bg-zinc-950">800 € – 2 000 €</option>
+                      <option value="2 000 € et plus" className="bg-zinc-950">2 000 € et plus</option>
                       <option value="À discuter" className="bg-zinc-950">À discuter</option>
                     </select>
                   </div>
@@ -718,7 +718,21 @@ export default function ThaylartLanding() {
                 </TiltCard>
               </motion.div>
 
-              <div className="mt-10">
+              {/* Prix indicatifs */}
+              <div className="mt-10 grid grid-cols-2 gap-4">
+                <div className="border border-zinc-200 rounded-xl px-4 py-3">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">À partir de</p>
+                  <p className="text-xl font-semibold text-zinc-900">150 €</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">par visuel</p>
+                </div>
+                <div className="border border-zinc-200 rounded-xl px-4 py-3">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">Pack catalogue</p>
+                  <p className="text-xl font-semibold text-zinc-900">450 €</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">3 visuels sur-mesure</p>
+                </div>
+              </div>
+
+              <div className="mt-8">
                 <MagneticButton
                   href="#contact"
                   className="inline-flex items-center gap-2 bg-zinc-900 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:bg-zinc-800 transition-colors duration-200 cursor-pointer"
@@ -771,7 +785,21 @@ export default function ThaylartLanding() {
                 ))}
               </div>
 
-              <div className="mt-10">
+              {/* Prix indicatifs */}
+              <div className="mt-10 grid grid-cols-2 gap-4">
+                <div className="border border-white/[0.08] rounded-xl px-4 py-3">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-white/30 mb-1">À partir de</p>
+                  <p className="text-xl font-semibold text-white">400 €</p>
+                  <p className="text-xs text-white/30 mt-0.5">animation courte</p>
+                </div>
+                <div className="border border-white/[0.08] rounded-xl px-4 py-3">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-white/30 mb-1">Projet complet</p>
+                  <p className="text-xl font-semibold text-white">800 €</p>
+                  <p className="text-xs text-white/30 mt-0.5">visuels + animation</p>
+                </div>
+              </div>
+
+              <div className="mt-8">
                 <MagneticButton
                   href="#portfolio"
                   className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:border-white/45 hover:bg-white/[0.06] transition-all duration-200 cursor-pointer"
@@ -836,7 +864,21 @@ export default function ThaylartLanding() {
                 Approche narrative — ambiance, univers, tension. Chaque image donne
                 une sensation de film. Idéale pour lancements de produit et campagnes de marque premium.
               </p>
-              <div className="mt-10">
+              {/* Prix indicatifs */}
+              <div className="mt-10 grid grid-cols-2 gap-4">
+                <div className="border border-zinc-200 rounded-xl px-4 py-3">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">À partir de</p>
+                  <p className="text-xl font-semibold text-zinc-900">800 €</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">séquence courte</p>
+                </div>
+                <div className="border border-zinc-200 rounded-xl px-4 py-3">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">Sur devis</p>
+                  <p className="text-xl font-semibold text-zinc-900">1 500 €+</p>
+                  <p className="text-xs text-zinc-400 mt-0.5">projet narratif complet</p>
+                </div>
+              </div>
+
+              <div className="mt-8">
                 <MagneticButton
                   href="#contact"
                   className="inline-flex items-center gap-2 bg-zinc-900 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:bg-zinc-800 transition-colors duration-200 cursor-pointer"
