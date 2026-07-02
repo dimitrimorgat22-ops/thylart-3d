@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "THAYLART — Studio de visualisation 3D",
-  description: "Visualisation produit, animations et cinématique 3D — des visuels construits pour marquer durablement.",
+  description: "Visualisation produit et animations 3D — des visuels construits pour marquer durablement.",
 };
 
 export default function RootLayout({
