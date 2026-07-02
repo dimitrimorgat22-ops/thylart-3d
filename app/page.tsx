@@ -264,7 +264,6 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                       <option value="" className="bg-zinc-950">Sélectionnez un service</option>
                       <option value="Visualisation Produit" className="bg-zinc-950">Visualisation Produit</option>
                       <option value="Product Animation" className="bg-zinc-950">Product Animation</option>
-                      <option value="Cinématique" className="bg-zinc-950">Cinématique</option>
                       <option value="Autre" className="bg-zinc-950">Autre / Sur-mesure</option>
                     </select>
                   </div>
@@ -411,7 +410,7 @@ function AnimatedCounter({ to, prefix = "", suffix = "" }: { to: number; prefix?
    MARQUEE STRIP
 ═══════════════════════════════════════════════════════════════ */
 function Marquee({ dark = false }: { dark?: boolean }) {
-  const items = ["THAYLART", "Visualisation 3D", "Visualisation Produit", "Product Animation", "Cinématique"]
+  const items = ["THAYLART", "Visualisation 3D", "Visualisation Produit", "Product Animation"]
   const repeated = [...items, ...items, ...items]
 
   return (
@@ -465,13 +464,12 @@ function ServiceStrip() {
   const services = [
     { id: "visualisation-produit", num: "01", label: "Visualisation Produit", href: "#visualisation-produit" },
     { id: "product", num: "02", label: "Product Animation", href: "#product-animation" },
-    { id: "cinematique", num: "03", label: "Cinématique", href: "#cinematique" },
   ]
 
   return (
     <div className="relative z-10 border-t border-white/[0.09]">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/[0.09]">
+        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/[0.09]">
           {services.map(({ id, num, label, href }, i) => (
             <motion.a
               key={id}
@@ -518,6 +516,8 @@ const fadeUp = {
 export default function ThaylartLanding() {
   const [contactOpen, setContactOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  const heroVideos = ["/parfum.mp4", "/ROLEX.mp4", "/voiture.mp4", "/iphone.mp4"]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -566,7 +566,6 @@ export default function ThaylartLanding() {
               {[
                 { label: "Visualisation Produit", href: "#visualisation-produit" },
                 { label: "Product Animation", href: "#product-animation" },
-                { label: "Cinématique", href: "#cinematique" },
                 { label: "Portfolio", href: "#portfolio" },
                 { label: "À propos", href: "#a-propos" },
                 { label: "Contact", href: "#contact" },
@@ -603,25 +602,31 @@ export default function ThaylartLanding() {
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section ref={heroRef} className="relative min-h-[100dvh] flex flex-col overflow-hidden">
-        {/* Vidéo de fond */}
+        {/* Vidéo de fond — grille des 4 réalisations, en lecture simultanée */}
         <motion.div
           className="absolute inset-0 will-change-transform overflow-hidden"
           style={{ y: heroBgY, scale: heroBgScale }}
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            style={{ filter: "brightness(0.5) saturate(0.9)" }}
-          >
-            <source src="/ROLEX.mp4" type="video/mp4" />
-          </video>
+          <div className="grid grid-cols-2 grid-rows-2 md:grid-cols-4 md:grid-rows-1 w-full h-full gap-[1px] bg-black">
+            {heroVideos.map((src) => (
+              <div key={src} className="relative overflow-hidden">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ filter: "brightness(0.5) saturate(0.9)" }}
+                >
+                  <source src={src} type="video/mp4" />
+                </video>
+              </div>
+            ))}
+          </div>
         </motion.div>
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(24,24,27,0.15)_0%,rgba(24,24,27,0)_25%,rgba(24,24,27,0.55)_70%,rgba(24,24,27,1)_100%)]" />
         <div className="absolute bottom-20 right-6 md:right-10 pointer-events-none z-10">
-          <span className="text-[9px] tracking-[0.18em] uppercase text-white/20">Concept non officiel — non affilié à Rolex SA</span>
+          <span className="text-[9px] tracking-[0.18em] uppercase text-white/20">Concepts non officiels — non affiliés à Rolex SA ni à Apple Inc.</span>
         </div>
 
         <motion.div
@@ -640,7 +645,7 @@ export default function ThaylartLanding() {
               THAYLART
             </motion.h1>
             <motion.p variants={fadeUp} className="mt-5 text-base md:text-xl text-white/55 max-w-[42ch] leading-relaxed">
-              Visualisation produit, animations et cinématique —{" "}
+              Visualisation produit et animations —{" "}
               <span className="text-white/80">des visuels 3D qui marquent.</span>
             </motion.p>
             <motion.p variants={fadeUp} className="mt-7 text-[10px] tracking-[0.34em] uppercase text-white/35">
@@ -700,7 +705,7 @@ export default function ThaylartLanding() {
                 Pensé pour les maisons de bijoux, parfum et marques e-commerce exigeantes.
               </p>
 
-              {/* Aperçu vidéo compact */}
+              {/* Aperçu visuel compact */}
               <motion.div
                 className="mt-10"
                 initial={{ opacity: 0, y: 14 }}
@@ -708,10 +713,8 @@ export default function ThaylartLanding() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: 0.32 }}
               >
-                <TiltCard className="aspect-video rounded-xl group cursor-pointer overflow-hidden">
-                  <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-                    <source src="/parfum.mp4" type="video/mp4" />
-                  </video>
+                <TiltCard className="aspect-[3/4] max-w-xs rounded-xl group cursor-pointer overflow-hidden">
+                  <img src="/visualisation-produit.png" alt="Visualisation produit — flacon de parfum" className="w-full h-full object-cover" loading="lazy" />
                   <div className="absolute bottom-3 left-3">
                     <span className="text-[10px] tracking-[0.2em] uppercase text-white/50">Visualisation produit</span>
                   </div>
@@ -722,12 +725,12 @@ export default function ThaylartLanding() {
               <div className="mt-10 grid grid-cols-2 gap-4">
                 <div className="border border-zinc-200 rounded-xl px-4 py-3">
                   <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">À partir de</p>
-                  <p className="text-xl font-semibold text-zinc-900">150 €</p>
+                  <p className="text-xl font-semibold text-zinc-900">160 €</p>
                   <p className="text-xs text-zinc-400 mt-0.5">par visuel</p>
                 </div>
                 <div className="border border-zinc-200 rounded-xl px-4 py-3">
                   <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">Pack catalogue</p>
-                  <p className="text-xl font-semibold text-zinc-900">450 €</p>
+                  <p className="text-xl font-semibold text-zinc-900">420 €</p>
                   <p className="text-xs text-zinc-400 mt-0.5">3 visuels sur-mesure</p>
                 </div>
               </div>
@@ -789,12 +792,12 @@ export default function ThaylartLanding() {
               <div className="mt-10 grid grid-cols-2 gap-4">
                 <div className="border border-white/[0.08] rounded-xl px-4 py-3">
                   <p className="text-[10px] tracking-[0.2em] uppercase text-white/30 mb-1">À partir de</p>
-                  <p className="text-xl font-semibold text-white">400 €</p>
+                  <p className="text-xl font-semibold text-white">650 €</p>
                   <p className="text-xs text-white/30 mt-0.5">animation courte</p>
                 </div>
                 <div className="border border-white/[0.08] rounded-xl px-4 py-3">
                   <p className="text-[10px] tracking-[0.2em] uppercase text-white/30 mb-1">Projet complet</p>
-                  <p className="text-xl font-semibold text-white">800 €</p>
+                  <p className="text-xl font-semibold text-white">950 €</p>
                   <p className="text-xs text-white/30 mt-0.5">visuels + animation</p>
                 </div>
               </div>
@@ -826,11 +829,10 @@ export default function ThaylartLanding() {
                     playsInline
                     className="w-full h-full object-cover rounded-[1.5rem]"
                   >
-                    <source src="/ROLEX.mp4" type="video/mp4" />
+                    <source src="/parfum.mp4" type="video/mp4" />
                   </video>
                   <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between pointer-events-none">
                     <span className="text-[10px] tracking-[0.22em] uppercase text-white/50">Rendu 3D</span>
-                    <span className="text-[10px] tracking-[0.22em] uppercase text-white/30">Concept non officiel — non affilié à Rolex SA</span>
                   </div>
                 </TiltCard>
               </div>
@@ -841,79 +843,6 @@ export default function ThaylartLanding() {
 
       {/* ── MARQUEE ──────────────────────────────────────────── */}
       <Marquee dark />
-
-      {/* ── CINÉMATIQUE — fond clair ──────────────────────────── */}
-      <section id="cinematique" className="relative min-h-[100dvh] flex items-center py-24 bg-zinc-100">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
-          <div className="grid md:grid-cols-[1fr_0.7fr] gap-12 md:gap-16 items-center">
-
-            <motion.div
-              initial={{ opacity: 0, y: 36 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-            >
-              <p className="text-[10px] tracking-[0.34em] uppercase text-zinc-400 mb-8">Service 03</p>
-              <h2
-                className="font-semibold tracking-tight leading-none text-zinc-900"
-                style={{ fontSize: "clamp(2.6rem, 6vw, 5.5rem)" }}
-              >
-                Séquences<br />immersives à<br />forte portée<br />émotionnelle.
-              </h2>
-              <p className="mt-9 text-zinc-500 leading-[1.9] max-w-[40ch] text-lg">
-                Approche narrative — ambiance, univers, tension. Chaque image donne
-                une sensation de film. Idéale pour lancements de produit et campagnes de marque premium.
-              </p>
-              {/* Prix indicatifs */}
-              <div className="mt-10 grid grid-cols-2 gap-4">
-                <div className="border border-zinc-200 rounded-xl px-4 py-3">
-                  <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">À partir de</p>
-                  <p className="text-xl font-semibold text-zinc-900">800 €</p>
-                  <p className="text-xs text-zinc-400 mt-0.5">séquence courte</p>
-                </div>
-                <div className="border border-zinc-200 rounded-xl px-4 py-3">
-                  <p className="text-[10px] tracking-[0.2em] uppercase text-zinc-400 mb-1">Sur devis</p>
-                  <p className="text-xl font-semibold text-zinc-900">1 500 €+</p>
-                  <p className="text-xs text-zinc-400 mt-0.5">projet narratif complet</p>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <MagneticButton
-                  href="#contact"
-                  className="inline-flex items-center gap-2 bg-zinc-900 text-white text-sm font-medium px-6 py-3.5 rounded-full hover:bg-zinc-800 transition-colors duration-200 cursor-pointer"
-                >
-                  Démarrer un projet
-                </MagneticButton>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, x: 32 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1, delay: 0.18, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-            >
-              <TiltCard className="aspect-[3/4] rounded-[1.5rem] group overflow-hidden">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                >
-                  <source src="/voiture.mp4" type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.25)_0%,transparent_50%)]" />
-                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end pointer-events-none">
-                  <span className="text-[10px] tracking-[0.2em] uppercase text-white/50">Cinématique 3D</span>
-                </div>
-              </TiltCard>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       {/* ── PORTFOLIO / RÉALISATIONS ──────────────────────────── */}
       <section id="portfolio" className="relative py-32 md:py-40" style={{ backgroundColor: "#0f0f11" }}>
@@ -940,7 +869,7 @@ export default function ThaylartLanding() {
           {/* Pièces */}
           <div className="space-y-32 md:space-y-48">
 
-            {/* ── 01 — Parfum vidéo ────────────────────────────── */}
+            {/* ── 01 — iPhone 17 Pro ──────────────────────────── */}
             <div className="grid md:grid-cols-[1.15fr_0.85fr] gap-10 md:gap-16 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
@@ -950,8 +879,11 @@ export default function ThaylartLanding() {
               >
                 <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
                   <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-                    <source src="/parfum.mp4" type="video/mp4" />
+                    <source src="/iphone.mp4" type="video/mp4" />
                   </video>
+                  <div className="absolute bottom-3 left-3 right-3 flex justify-end pointer-events-none">
+                    <span className="text-[9px] tracking-[0.18em] uppercase text-white/30">Concept non officiel — non affilié à Apple Inc.</span>
+                  </div>
                 </TiltCard>
               </motion.div>
               <motion.div
@@ -960,12 +892,12 @@ export default function ThaylartLanding() {
                 viewport={{ once: true, amount: 0.25 }}
                 transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
               >
-                <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-5">Pièce 01 — Visualisation produit</p>
+                <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-5">Pièce 01 — Product Animation</p>
                 <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.15] text-white">
-                  Capsule olfactive.
+                  iPhone 17 Pro.
                 </h3>
                 <p className="mt-6 text-white/50 leading-[1.85] max-w-[42ch]">
-                  Mise en scène cinématographique d&apos;un flacon de parfum. Lumière, reflets, texture du verre — chaque détail orchestré pour suggérer la matière sans la toucher.
+                  Animation produit haute précision. Chaque angle, chaque reflet du châssis pensé pour révéler la finition et la technicité de l&apos;objet.
                 </p>
               </motion.div>
             </div>
@@ -981,7 +913,7 @@ export default function ThaylartLanding() {
               >
                 <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-5">Pièce 02 — Product Animation</p>
                 <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.15] text-white">
-                  Rolex Submariner.
+                  Rolex.
                 </h3>
                 <p className="mt-6 text-white/50 leading-[1.85] max-w-[42ch]">
                   Animation horlogère haute fidélité. Caméra orbitale et lumière calibrée pour révéler la précision mécanique et l&apos;éclat du métal.
@@ -1031,6 +963,36 @@ export default function ThaylartLanding() {
                 </h3>
                 <p className="mt-6 text-white/50 leading-[1.85] max-w-[42ch]">
                   Séquence narrative pensée comme un plan de film. Lumière, mouvement, atmosphère — une voiture devient un personnage.
+                </p>
+              </motion.div>
+            </div>
+
+            {/* ── 04 — Parfum vidéo ────────────────────────────── */}
+            <div className="grid md:grid-cols-[1.15fr_0.85fr] gap-10 md:gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <TiltCard className="aspect-[4/5] rounded-[1.5rem] group overflow-hidden">
+                  <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                    <source src="/parfum.mp4" type="video/mp4" />
+                  </video>
+                </TiltCard>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.95, delay: 0.14, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+              >
+                <p className="text-[10px] tracking-[0.34em] uppercase text-white/28 mb-5">Pièce 04 — Visualisation produit</p>
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight leading-[1.15] text-white">
+                  Capsule olfactive.
+                </h3>
+                <p className="mt-6 text-white/50 leading-[1.85] max-w-[42ch]">
+                  Mise en scène cinématographique d&apos;un flacon de parfum. Lumière, reflets, texture du verre — chaque détail orchestré pour suggérer la matière sans la toucher.
                 </p>
               </motion.div>
             </div>
@@ -1098,7 +1060,13 @@ export default function ThaylartLanding() {
                 L&apos;artisan derrière<br />les pixels.
               </h2>
               <p className="mt-8 text-white/55 leading-[1.85] max-w-[48ch]">
-                Passé par l&apos;ESCE et voyageur passionné, j&apos;ai fondé Thaylart pour porter une approche 3D différente — sensible aux détails, attentive à l&apos;identité de chaque marque, et entièrement sur-mesure.
+                Le Japon, Madagascar, l&apos;Angleterre — mes études m&apos;ont fait traverser trois continents avant de me ramener ici, dans le Gard. Partout où je suis passé, la même passion m&apos;a suivi : celle de l&apos;image, du détail, de la matière qui raconte une histoire.
+              </p>
+              <p className="mt-5 text-white/45 leading-[1.85] max-w-[48ch]">
+                Passé par l&apos;ESCE, j&apos;aurais pu suivre une voie plus classique. Mais cette passion n&apos;a jamais cessé de me rattraper — jusqu&apos;au jour où j&apos;ai décidé d&apos;en faire mon métier et de fonder Thaylart, avec une approche 3D différente, sensible aux détails et entièrement sur-mesure.
+              </p>
+              <p className="mt-5 text-white/45 leading-[1.85] max-w-[48ch]">
+                Mon approche créative tient en un mot : l&apos;obsession. Obsession de la beauté, de l&apos;esthétique juste — la courbe qui ne bouge pas d&apos;un pixel, la lumière qui tombe exactement où elle doit. Rien n&apos;est laissé au hasard.
               </p>
               <p className="mt-5 text-white/45 leading-[1.85] max-w-[48ch]">
                 Chaque collaboration est calibrée à votre univers et à vos objectifs. Pas de modèles préfabriqués, pas de compromis sur la qualité — uniquement des visuels conçus pour vous.
