@@ -643,6 +643,7 @@ export default function ThaylartLanding() {
               style={{ fontSize: "clamp(3.8rem, 11vw, 10.5rem)" }}
             >
               THAYLART
+              <span className="sr-only"> — Studio de visualisation 3D produit</span>
             </motion.h1>
             <motion.p variants={fadeUp} className="mt-5 text-base md:text-xl text-white/55 max-w-[42ch] leading-relaxed">
               Visualisation produit et animations —{" "}
