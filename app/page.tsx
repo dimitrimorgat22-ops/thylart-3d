@@ -517,7 +517,7 @@ export default function ThaylartLanding() {
   const [contactOpen, setContactOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  const heroVideos = ["/parfum.mp4", "/ROLEX.mp4", "/voiture.mp4", "/iphone.mp4"]
+  const heroVideos = ["/hero-parfum.mp4", "/hero-ROLEX.mp4", "/hero-voiture.mp4", "/hero-iphone.mp4"]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -609,12 +609,13 @@ export default function ThaylartLanding() {
         >
           <div className="grid grid-cols-2 grid-rows-2 md:grid-cols-4 md:grid-rows-1 w-full h-full gap-[1px] bg-black">
             {heroVideos.map((src) => (
-              <div key={src} className="relative overflow-hidden">
+              <div key={src} className="relative overflow-hidden bg-zinc-900">
                 <video
                   autoPlay
                   muted
                   loop
                   playsInline
+                  preload="auto"
                   className="absolute inset-0 w-full h-full object-cover"
                   style={{ filter: "brightness(0.5) saturate(0.9)" }}
                 >
