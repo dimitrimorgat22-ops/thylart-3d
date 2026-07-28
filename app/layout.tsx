@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.thaylart.com"),
   title: "THAYLART — Studio de visualisation 3D produit",
-  description: "Visualisation produit et animations 3D — des visuels construits pour marquer durablement. Studio basé à Saint-Nazaire, Gard.",
-  keywords: ["visualisation 3D produit", "animation 3D produit", "packshot 3D", "rendu 3D Blender", "studio 3D Gard"],
+  description: "Visualisation produit et animations 3D — des visuels construits pour marquer durablement. Studio basé près de Bagnols-sur-Cèze, dans le Gard.",
+  keywords: ["visualisation 3D produit", "animation 3D produit", "packshot 3D", "rendu 3D Blender", "studio 3D Gard", "3D Bagnols-sur-Cèze", "infographiste 3D Gard"],
   openGraph: {
     title: "THAYLART — Studio de visualisation 3D produit",
     description: "Visualisation produit et animations 3D — des visuels construits pour marquer durablement.",
@@ -52,7 +52,12 @@ const jsonLd = {
     addressCountry: "FR",
   },
   sameAs: ["https://www.instagram.com/thaylartonline/"],
-  description: "Studio de visualisation 3D produit et animations, basé à Saint-Nazaire dans le Gard.",
+  description: "Studio de visualisation 3D produit et animations, basé à Saint-Nazaire près de Bagnols-sur-Cèze, dans le Gard.",
+  areaServed: [
+    { "@type": "City", name: "Bagnols-sur-Cèze" },
+    { "@type": "City", name: "Saint-Nazaire" },
+    { "@type": "AdministrativeArea", name: "Gard" },
+  ],
 }
 
 export default function RootLayout({

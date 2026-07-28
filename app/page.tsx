@@ -1062,7 +1062,7 @@ export default function ThaylartLanding() {
                 L&apos;artisan derrière<br />les pixels.
               </h2>
               <p className="mt-8 text-white/55 leading-[1.85] max-w-[48ch]">
-                Le Japon, Madagascar, l&apos;Angleterre — mes études m&apos;ont fait traverser trois continents avant de me ramener ici, dans le Gard. Partout où je suis passé, la même passion m&apos;a suivi : celle de l&apos;image, du détail, de la matière qui raconte une histoire.
+                Le Japon, Madagascar, l&apos;Angleterre — mes études m&apos;ont fait traverser trois continents avant de me ramener ici, près de Bagnols-sur-Cèze dans le Gard. Partout où je suis passé, la même passion m&apos;a suivi : celle de l&apos;image, du détail, de la matière qui raconte une histoire.
               </p>
               <p className="mt-5 text-white/45 leading-[1.85] max-w-[48ch]">
                 Passé par l&apos;ESCE, j&apos;aurais pu suivre une voie plus classique. Mais cette passion n&apos;a jamais cessé de me rattraper — jusqu&apos;au jour où j&apos;ai décidé d&apos;en faire mon métier et de fonder Thaylart, avec une approche 3D différente, sensible aux détails et entièrement sur-mesure.
@@ -1076,7 +1076,7 @@ export default function ThaylartLanding() {
 
               <div className="mt-10 pt-8 border-t border-white/[0.08] flex flex-wrap gap-x-8 gap-y-3 text-xs tracking-[0.18em] uppercase text-white/35">
                 <span>Auto-entrepreneur</span>
-                <span>Saint-Nazaire · Gard</span>
+                <span>Saint-Nazaire · Bagnols-sur-Cèze · Gard</span>
                 <span>Studio Thaylart</span>
               </div>
             </motion.div>
