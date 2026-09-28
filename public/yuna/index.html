@@ -72,8 +72,8 @@
   @keyframes pop{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10px) rotate(-3deg)}}
 
   .marquee{background:var(--cocoa);color:var(--cream);overflow:hidden;padding:15px 0;white-space:nowrap}
-  .marquee .track{display:inline-flex;gap:40px;font-family:"Fredoka";font-weight:500;font-size:15px;animation:slide 22s linear infinite}
-  .marquee .track span{display:inline-flex;align-items:center;gap:40px}
+  .marquee .track{display:flex;width:max-content;font-family:"Fredoka";font-weight:500;font-size:15px;animation:slide 30s linear infinite;will-change:transform}
+  .marquee .track span{display:inline-flex;align-items:center;gap:40px;padding-right:40px}
   .marquee .dot{color:var(--honey)}
   @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
