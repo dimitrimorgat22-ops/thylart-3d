@@ -2,8 +2,9 @@ import type { Metadata } from "next"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Mentions légales — THAYLART",
-  description: "Mentions légales du site thaylart.com, studio de visualisation 3D fondé par Dimitri Morgat.",
+  title: "Mentions légales | Thaylart",
+  description: "Mentions légales du site thaylart.com, studio de création de sites internet fondé par Dimitri Morgat.",
+  alternates: { canonical: "/mentions-legales" },
 }
 
 export default function MentionsLegales() {
@@ -82,7 +83,7 @@ export default function MentionsLegales() {
               Propriété intellectuelle
             </h2>
             <p>
-              L&apos;ensemble des éléments présents sur ce site (textes, visuels 3D, animations,
+              L&apos;ensemble des éléments présents sur ce site (textes, visuels, animations,
               modèles, photographies, identité graphique, code source) est la propriété exclusive
               de Dimitri Morgat — Thaylart, sauf mention contraire.
             </p>
