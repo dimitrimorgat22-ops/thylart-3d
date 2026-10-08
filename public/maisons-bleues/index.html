@@ -109,7 +109,7 @@ button{font-family:inherit}
 .idx a:hover,.idx a[data-active="true"]{opacity:1; color:var(--bleu-p)}
 .idx a[data-active="true"]::before{width:40px; background:var(--bleu)}
 .idx.on-dark a{color:rgba(255,255,255,.75)} .idx.on-dark a[data-active="true"]{color:#fff}
-@media (max-width:1200px){.idx{display:none}}
+@media (max-width:1600px){.idx{display:none}}
 
 /* ── hero cinématique ── */
 .hero{position:relative; min-height:100dvh; display:flex; align-items:flex-end; color:#fff; overflow:hidden; background:var(--bleu-n)}
@@ -241,6 +241,21 @@ button{font-family:inherit}
 .av-src b{font-size:15.5px; font-weight:600}
 .av-src span{font-family:var(--m); font-size:12.5px; color:rgba(255,255,255,.7)}
 .av-note{font-size:14px; color:rgba(255,255,255,.72); line-height:1.62}
+/* témoignages */
+.av-ft{margin:0; background:#fff; border:1px solid var(--ligne); padding:clamp(28px,3.6vw,52px); display:grid; gap:24px; align-content:start; height:100%}
+.av-ft blockquote{margin:0; font-size:clamp(19px,1.85vw,25px); font-weight:300; letter-spacing:-.025em; line-height:1.48; color:var(--noir)}
+.av-ft blockquote::before{content:"\201C"; display:block; font-size:64px; line-height:.55; color:var(--bleu); margin-bottom:14px}
+.tm-s{display:flex; gap:3px; color:var(--sable)}
+.tm-s svg{width:15px; height:15px; flex:none}
+.tm-who{display:flex; align-items:center; gap:13px}
+.tm-av{width:42px; height:42px; border-radius:50%; background:var(--bleu-c); color:var(--bleu-p); display:grid; place-content:center; font-size:13.5px; font-weight:600; flex:none}
+.tm-who b{display:block; font-size:15px; font-weight:600}
+.tm-who b + span{display:block; font-family:var(--m); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--gris); margin-top:3px}
+.tm-g{columns:3 300px; column-gap:clamp(14px,1.6vw,22px); margin-top:clamp(14px,1.6vw,22px)}
+.tm{break-inside:avoid; margin:0 0 clamp(14px,1.6vw,22px); background:#fff; border:1px solid var(--ligne); padding:clamp(22px,2.4vw,30px); display:grid; gap:16px}
+.tm blockquote{margin:0; display:grid; gap:10px}
+.tm blockquote p{font-size:15px; color:var(--gris-f); line-height:1.7}
+.tm-cap{font-size:12.5px; color:var(--gris); margin-top:4px}
 
 /* contact */
 .ct-g{display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr); gap:clamp(32px,5.5vw,88px); align-items:start}
@@ -616,9 +631,46 @@ button{font-family:inherit}
         <div class="av-src"><div><b>Google</b><span>4,8 / 5 · 30 avis</span></div><div><b>Infobel</b><span>4,6 / 5 · 14 avis</span></div></div>
         <a class="b b-w" href="https://www.google.com/search?q=Les+Maisons+Bleues+Saint-Alexandre" rel="noopener">Lire les avis sur Google<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
       </div>
-      <img class="ph" loading="lazy" decoding="async" src="/maisons-bleues/assets/img/villa-jaune.jpg" alt="Villa de plain-pied livrée par Les Maisons Bleues dans le Gard rhodanien" width="760" height="470" style="width:100%; height:100%; min-height:320px; object-fit:cover">
-
+      <figure class="av-ft">
+        <div class="tm-s" role="img" aria-label="5 étoiles sur 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg></div>
+        <blockquote>Très satisfaits des Maisons Bleues. Nous avons fait construire il y a 10 ans, Yucel Tosun est un entrepreneur sérieux et compétent. Il nous a même guidés sur des décisions techniques (étude sismique, sol, isolation, menuiseries…) et esthétiques. Nous n'avons jamais rencontré de problème durant toutes ces années. Personne de confiance, nous le recommandons.</blockquote>
+        <figcaption class="tm-who"><span class="tm-av" aria-hidden="true">RL</span><span><b>Roland L.</b><span>Avis Google</span></span></figcaption>
+      </figure>
     </div>
+
+    <div class="tm-g rv">
+      <figure class="tm">
+        <div class="tm-s" role="img" aria-label="5 étoiles sur 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg></div>
+        <blockquote><p>Un constructeur qui crée une relation plus que client/fournisseur, il prend le temps de comprendre votre besoin car il est humain et cela devient tellement rare de nos jours.</p><p>Cela fait bientôt 10 ans qu'il a construit notre maison avec de très bons conseils pour choix et aménagement en misant sur des matériaux de qualité.</p><p>Aujourd'hui, il reste toujours présent, que ce soit pour un café, un moment de partage ou une galère.</p></blockquote>
+        <figcaption class="tm-who"><span class="tm-av" aria-hidden="true">SG</span><span><b>Sarah G.</b><span>Avis Google</span></span></figcaption>
+      </figure>
+      <figure class="tm">
+        <div class="tm-s" role="img" aria-label="5 étoiles sur 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg></div>
+        <blockquote><p>Nous avons fait construire notre maison par Les Maisons Bleues l'année dernière et franchement, on a été bluffés. Équipe sympa, toujours dispo pour répondre à nos questions et nos besoins. Les délais ont été tenus, ce qui nous a agréablement surpris ! La maison est à notre image, les finitions soignées, et on s'y sent vraiment bien. On recommande sans hésiter à tous ceux qui veulent se lancer dans un projet de construction sereinement. Merci à toute l'équipe !</p></blockquote>
+        <figcaption class="tm-who"><span class="tm-av" aria-hidden="true">LK</span><span><b>Le Kirikou</b><span>Avis Google</span></span></figcaption>
+      </figure>
+      <figure class="tm">
+        <div class="tm-s" role="img" aria-label="5 étoiles sur 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg></div>
+        <blockquote><p>J'ai construit une première maison avec Les Maisons Bleues, Yucel et son équipe. Un lien se crée grâce à la confiance que Yucel témoigne, à son écoute, sa patience, son professionnalisme et sa gentillesse. Tout comme son équipe (dessinateur, Anne-Marie…), ils sont toujours disponibles pour répondre à nos questions et nous rassurer dans les moments de doute.</p><p>La première maison a maintenant 20 ans. Mais c'est un beau souvenir que je garde de cette construction. Matériaux de qualité, prix, délais respectés, tout pour vivre ce moment sans stress, et c'est sans hésitation que je me tourne vers Les Maisons Bleues aujourd'hui pour un nouveau projet. Prochain avis à venir dans quelques mois, mais je ne doute pas une seule seconde qu'il sera identique à celui-ci.</p><p>Une dernière chose : merci à Yucel !</p></blockquote>
+        <figcaption class="tm-who"><span class="tm-av" aria-hidden="true">SM</span><span><b>Stéphanie M.</b><span>Avis Google</span></span></figcaption>
+      </figure>
+      <figure class="tm">
+        <div class="tm-s" role="img" aria-label="5 étoiles sur 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg></div>
+        <blockquote><p>Notre maison, notre havre de paix : Les Maisons Bleues ont bâti notre rêve. Yucel et son équipe sont des professionnels compétents et réactifs. Sa présence est sa force ! Il nous a accompagnés étape par étape afin de répondre à 100 % à notre besoin. Aujourd'hui nous sommes heureux de notre maison.</p></blockquote>
+        <figcaption class="tm-who"><span class="tm-av" aria-hidden="true">HM</span><span><b>Hélène M.</b><span>Avis Google</span></span></figcaption>
+      </figure>
+      <figure class="tm">
+        <div class="tm-s" role="img" aria-label="5 étoiles sur 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg></div>
+        <blockquote><p>Une très bonne expérience, avec des personnes humaines, professionnelles, à l'écoute. Yucel en particulier est fiable et très sympathique. Les résultats sont superbes, je recommande à 100 % !</p></blockquote>
+        <figcaption class="tm-who"><span class="tm-av" aria-hidden="true">MC</span><span><b>Marie C.</b><span>Avis Google</span></span></figcaption>
+      </figure>
+      <figure class="tm">
+        <div class="tm-s" role="img" aria-label="5 étoiles sur 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3-6.2 3.3L7 14.2l-5-4.9 6.9-1L12 2Z"/></svg></div>
+        <blockquote><p>Un grand merci à Yucel et son équipe pour son professionnalisme. Il a su nous accompagner au mieux dans notre projet de construction. Notre maison répond exactement à nos attentes. Encore un grand merci. Je recommande à 100 % Les Maisons Bleues.</p></blockquote>
+        <figcaption class="tm-who"><span class="tm-av" aria-hidden="true">S</span><span><b>Sosa</b><span>Avis Google</span></span></figcaption>
+      </figure>
+    </div>
+    <p class="tm-cap">Avis publiés par nos clients sur Google, reproduits avec leur prénom et l'initiale de leur nom.</p>
   </div>
 </section>
 
