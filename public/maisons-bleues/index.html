@@ -7,6 +7,7 @@
 <meta name="description" content="Constructeur de maisons individuelles dans le Gard rhodanien. Huit modèles de 96 à 160 m², contrat CCMI, un seul interlocuteur du permis aux clés.">
 <meta name="theme-color" content="#001D4B">
 <meta name="robots" content="noindex, nofollow">
+<script>/* motion design : on masque le hero le temps que GSAP l'anime (retiré si GSAP ne charge pas) */ if(!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-anim');</script>
 <style>
 /* ═══════════════════════════════════════════════════════════
    LES MAISONS BLEUES — refonte v2 « éditorial cinématique »
@@ -104,7 +105,7 @@ button{font-family:inherit}
 
 /* ── index latéral collant ── */
 .idx{position:fixed; left:clamp(14px,2vw,26px); top:50%; transform:translateY(-50%); z-index:40; display:grid; gap:16px}
-.idx a{display:flex; align-items:center; gap:11px; font-family:var(--m); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gris); opacity:.55; transition:opacity .4s var(--e), color .4s var(--e)}
+.idx a{display:flex; align-items:center; gap:11px; font-family:var(--m); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gris-f); opacity:.7; transition:opacity .4s var(--e), color .4s var(--e)}
 .idx a::before{content:""; width:20px; height:1px; background:currentColor; transition:width .4s var(--e)}
 .idx a:hover,.idx a[data-active="true"]{opacity:1; color:var(--bleu-p)}
 .idx a[data-active="true"]::before{width:40px; background:var(--bleu)}
@@ -353,6 +354,53 @@ button{font-family:inherit}
   .rv{opacity:1; transform:none}
   .hero-scroll .ln::after{display:none}
 }
+
+/* ═══ motion design (effets animés par GSAP, voir le script en bas de page) ═══ */
+.js-anim .hd,.js-anim .hero-in{visibility:hidden}
+/* le défilement doux CSS fausse les mesures de ScrollTrigger ; les ancres gardent leur défilement doux via JS */
+html.js-anim{scroll-behavior:auto}
+.prog{position:fixed; top:0; left:0; right:0; height:2px; background:var(--bleu); transform-origin:0 50%; transform:scaleX(0); z-index:70; pointer-events:none}
+
+/* titres révélés mot par mot derrière un masque */
+.mw{display:inline-block; overflow:hidden; vertical-align:bottom; padding:.12em 0; margin:-.12em 0}
+.mw > span{display:inline-block}
+
+/* reflet lumineux qui balaie les titres sur fond sombre */
+.sheen-l{--sh:rgba(255,255,255,.95); --s1:#FFFFFF; --s2:#CFE3F5}
+.sheen-d{--sh:rgba(255,255,255,.85); --s1:#FFFFFF; --s2:#9DBFE3}
+.sheen-l .mw > span,.sheen-d .mw > span{
+  background-image:linear-gradient(105deg,transparent 40%,var(--sh) 50%,transparent 60%),linear-gradient(180deg,var(--s1) 0%,var(--s2) 100%);
+  background-size:300% 100%,100% 100%; background-repeat:no-repeat; background-position:150% 0,0 0;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  animation:sheen 7s cubic-bezier(.45,0,.25,1) infinite}
+.sheen-l .mw > span{filter:drop-shadow(0 2px 18px rgba(0,20,55,.35))}
+@keyframes sheen{0%,55%{background-position:150% 0,0 0} 100%{background-position:-50% 0,0 0}}
+
+/* bandeau défilant */
+.mq{overflow:hidden; background:var(--creme2); border-bottom:1px solid var(--ligne); padding:20px 0}
+.mq-row{display:flex; width:max-content}
+.mq-g{display:flex; flex:none}
+.mq-g span{font-family:var(--m); font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:rgba(0,58,150,.5); white-space:nowrap}
+.mq-g i{font-style:normal; color:var(--bleu); opacity:.6; margin:0 24px}
+
+/* méthode : ligne de progression */
+.js-anim .mt-l{position:relative}
+.js-anim .mt-l::before,.js-anim .mt-l::after{content:""; position:absolute; top:0; bottom:0; left:calc(-1*clamp(10px,1.6vw,26px)); width:2px; pointer-events:none}
+.js-anim .mt-l::before{background:rgba(255,255,255,.1)}
+.js-anim .mt-l::after{background:var(--bleu); transform-origin:top; transform:scaleY(var(--p,0))}
+
+/* réalisations : la parallaxe remplace le zoom au survol */
+.js-anim .rz-i img{transition:none}
+
+/* modèles : les cartes se soulèvent au survol */
+.track{padding-top:12px; margin-top:-12px}
+@media (hover:hover){
+  .card{transition:transform .6s var(--e), box-shadow .6s var(--e)}
+  .card:hover{transform:translateY(-8px); box-shadow:0 26px 44px -30px rgba(0,29,75,.45)}
+}
+
+/* boutons magnétiques : GSAP pilote la position, pas de transition CSS sur transform */
+.mag{transition:background .5s var(--e), color .5s var(--e), border-color .5s var(--e)!important}
 </style>
 <script type="application/ld+json">
 {
@@ -846,6 +894,15 @@ button{font-family:inherit}
     });
     gsap.to('#heroBg', {yPercent:18, ease:'none', scrollTrigger:{trigger:'#top', start:'top top', end:'bottom top', scrub:true}});
     /* index latéral : section active + couleur selon fond */
+    /* couleur du sommaire selon le fond réellement présent derrière lui (vidéo et sections bleu nuit = texte clair) */
+    var darkZones = document.querySelectorAll('.hero, .pv, section.dark, footer.ft');
+    function idxTone(){
+      var r = idx.getBoundingClientRect(); if(!r.height) return;
+      var mid = r.top + r.height / 2, dark = false;
+      darkZones.forEach(function(z){ var b = z.getBoundingClientRect(); if(b.top <= mid && b.bottom >= mid) dark = true; });
+      idx.classList.toggle('on-dark', dark);
+    }
+    idxTone(); window.addEventListener('scroll', idxTone, {passive:true}); window.addEventListener('resize', idxTone);
     var links = Array.prototype.slice.call(idx.querySelectorAll('a'));
     links.forEach(function(l){
       var sec = document.querySelector(l.getAttribute('href'));
@@ -855,13 +912,189 @@ button{font-family:inherit}
           if(self.isActive){
             links.forEach(function(x){ x.setAttribute('data-active','false'); });
             l.setAttribute('data-active','true');
-            idx.classList.toggle('on-dark', sec.classList.contains('dark') || sec.id === 'top');
           }
         }});
     });
   } else {
     document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
   }
+})();
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════
+   MOTION DESIGN — effets inspirés du site Thaylart, en GSAP.
+   Tout le contenu reste dans le HTML : ces effets ne font que l'animer.
+   Rien ne tourne si l'utilisateur a demandé moins d'animations.
+   ═══════════════════════════════════════════════════════════ */
+(function(){
+  var root = document.documentElement;
+  if(!window.gsap || !window.ScrollTrigger){ root.classList.remove('js-anim'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+  var EASE = 'expo.out';
+
+  /* découpe un texte en mots ; masked = chaque mot glisse derrière un masque */
+  function split(el, masked){
+    var words = el.textContent.trim().split(/\s+/), out = [];
+    el.setAttribute('aria-label', el.textContent.trim());
+    el.textContent = '';
+    words.forEach(function(w, i){
+      var s = document.createElement('span');
+      s.textContent = w;
+      s.setAttribute('aria-hidden', 'true');
+      s.style.animationDelay = (i * 0.14) + 's';
+      if(masked){ var m = document.createElement('span'); m.className = 'mw'; m.appendChild(s); el.appendChild(m); }
+      else { s.style.display = 'inline-block'; el.appendChild(s); }
+      if(i < words.length - 1) el.appendChild(document.createTextNode(' '));
+      out.push(s);
+    });
+    return out;
+  }
+
+  var mm = gsap.matchMedia();
+  mm.add({ motion:'(prefers-reduced-motion: no-preference)', fine:'(hover: hover) and (pointer: fine)' }, function(ctx){
+    if(!ctx.conditions.motion){ root.classList.remove('js-anim'); return; }
+    var cleanups = [];
+
+    /* 1. barre de progression de lecture */
+    var bar = document.createElement('div');
+    bar.className = 'prog'; bar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(bar);
+    gsap.to(bar, {scaleX:1, ease:'none', scrollTrigger:{start:0, end:'max', scrub:.3}});
+    cleanups.push(function(){ bar.remove(); });
+
+    /* 2. entrée : header en cascade, titre révélé mot par mot avec reflet */
+    var h1 = document.querySelector('.hero h1');
+    h1.classList.add('sheen-l');
+    var h1Words = split(h1, true);
+    gsap.set(['.hd', '.hero-in'], {visibility:'visible'});
+    gsap.timeline({defaults:{ease:EASE}})
+      .from('.hd', {y:-16, autoAlpha:0, duration:.8})
+      .from('.nv a, .hd-r > *', {y:-8, autoAlpha:0, duration:.5, stagger:.07}, '<.1')
+      .from('.hero .sur', {y:10, autoAlpha:0, duration:.8}, '<')
+      .from(h1Words, {yPercent:115, duration:1.15, stagger:.07}, '<.1')
+      .from('.hero-sub', {y:16, autoAlpha:0, duration:.9}, '-=.75')
+      .from('.hero-a .b', {y:16, autoAlpha:0, duration:.9, stagger:.1}, '-=.75')
+      .from('.hero-scroll', {autoAlpha:0, duration:.8}, '-=.5');
+
+    /* 3. le hero s'efface au scroll, la vidéo zoome légèrement */
+    gsap.to('.hero-in', {yPercent:-14, opacity:0, ease:'none', scrollTrigger:{trigger:'#top', start:'top top', end:'bottom 25%', scrub:true}});
+    gsap.to('#heroVid', {scale:1.12, ease:'none', scrollTrigger:{trigger:'#top', start:'top top', end:'bottom top', scrub:true}});
+
+    /* 4. bandeau défilant : sa vitesse et son sens suivent le scroll */
+    var pv = document.querySelector('.pv');
+    var mq = document.createElement('div'), row = document.createElement('div');
+    mq.className = 'mq'; mq.setAttribute('aria-hidden', 'true'); row.className = 'mq-row';
+    var items = ['Construction neuve','Rénovation','Extension','Surélévation','Piscines','Pergolas','Vérandas','Aménagement extérieur','Contrat CCMI','Gard rhodanien'];
+    for(var k = 0; k < 4; k++){
+      var g = document.createElement('div'); g.className = 'mq-g';
+      items.forEach(function(t){ var s = document.createElement('span'); s.textContent = t; var i = document.createElement('i'); i.textContent = '✦'; s.appendChild(i); g.appendChild(s); });
+      row.appendChild(g);
+    }
+    mq.appendChild(row); pv.parentNode.insertBefore(mq, pv.nextSibling);
+    var wrap = gsap.utils.wrap(-25, 0), xp = 0, dir = 1, vel = 0;
+    var velST = ScrollTrigger.create({start:0, end:'max', onUpdate:function(s){ vel = s.getVelocity(); }});
+    function drift(time, dt){
+      var f = gsap.utils.clamp(-5, 5, vel / 700);
+      if(f < 0) dir = -1; else if(f > 0) dir = 1;
+      xp = wrap(xp - dir * 1.6 * (dt / 1000) * (1 + Math.abs(f)));
+      gsap.set(row, {xPercent:xp});
+      vel *= .9;
+    }
+    gsap.ticker.add(drift);
+    cleanups.push(function(){ gsap.ticker.remove(drift); velST.kill(); mq.remove(); });
+
+    /* 5. compteurs animés à l'entrée dans l'écran */
+    document.querySelectorAll('.pv-i b.n, .av-n b.n').forEach(function(el){
+      var txt = el.textContent, m = txt.match(/(\d+)(?:,(\d+))?/);
+      if(!m) return;
+      var dec = m[2] ? m[2].length : 0, target = parseFloat(m[1] + '.' + (m[2] || '0'));
+      var pre = txt.slice(0, m.index), post = txt.slice(m.index + m[0].length), o = {v:0};
+      function fmt(v){ return pre + v.toFixed(dec).replace('.', ',') + post; }
+      el.textContent = fmt(0);
+      gsap.to(o, {v:target, duration:1.8, ease:'power2.out', onUpdate:function(){ el.textContent = fmt(o.v); },
+        scrollTrigger:{trigger:el, start:'top 92%', once:true}});
+      cleanups.push(function(){ el.textContent = txt; });
+    });
+
+    /* 6. manifeste : les mots s'allument au fil du scroll */
+    var mt = document.querySelector('.in-t');
+    if(mt){
+      gsap.fromTo(split(mt, false), {opacity:.15}, {opacity:1, ease:'none', stagger:.1,
+        scrollTrigger:{trigger:mt, start:'top 85%', end:'bottom 45%', scrub:true}});
+    }
+
+    /* 7. titres de section révélés mot par mot (reflet sur les fonds sombres) */
+    document.querySelectorAll('h2.h2').forEach(function(h){
+      if(h.closest('.dark')) h.classList.add('sheen-d');
+      gsap.from(split(h, true), {yPercent:115, duration:1.1, ease:EASE, stagger:.06,
+        scrollTrigger:{trigger:h, start:'top 88%', once:true}});
+    });
+
+    /* 8. sections bleu nuit qui s'élargissent en entrant */
+    document.querySelectorAll('section.dark').forEach(function(s){
+      gsap.fromTo(s, {clipPath:'inset(0% 4% 0% 4% round 32px)'}, {clipPath:'inset(0% 0% 0% 0% round 0px)', ease:'none',
+        scrollTrigger:{trigger:s, start:'top bottom', end:'top 30%', scrub:true}});
+    });
+
+    /* 9. méthode : la ligne se remplit, les étapes s'allument */
+    var ol = document.querySelector('.mt-l');
+    if(ol){
+      gsap.fromTo(ol, {'--p':0}, {'--p':1, ease:'none', scrollTrigger:{trigger:ol, start:'top 65%', end:'bottom 65%', scrub:true}});
+      ol.querySelectorAll('.mt-i').forEach(function(li){
+        gsap.fromTo(li, {opacity:.3}, {opacity:1, ease:'none', scrollTrigger:{trigger:li, start:'top 80%', end:'top 60%', scrub:true}});
+      });
+    }
+
+    /* 10. réalisations : la photo se dévoile puis glisse en parallaxe */
+    document.querySelectorAll('.rz-i').forEach(function(it){
+      gsap.fromTo(it, {clipPath:'inset(12% 9% 12% 9% round 22px)'}, {clipPath:'inset(0% 0% 0% 0% round 0px)', ease:'none',
+        scrollTrigger:{trigger:it, start:'top 95%', end:'center 60%', scrub:true}});
+      gsap.fromTo(it.querySelector('img'), {yPercent:-6, scale:1.14}, {yPercent:6, scale:1.14, ease:'none',
+        scrollTrigger:{trigger:it, start:'top bottom', end:'bottom top', scrub:true}});
+    });
+    var inImg = document.querySelector('.in-m img');
+    if(inImg){
+      gsap.fromTo(inImg, {yPercent:-5, scale:1.1}, {yPercent:5, scale:1.1, ease:'none',
+        scrollTrigger:{trigger:inImg.parentNode, start:'top bottom', end:'bottom top', scrub:true}});
+    }
+
+    /* 11. cascades d'apparition */
+    function cascade(list, trigger, vars){
+      if(!list.length) return;
+      gsap.from(list, Object.assign({autoAlpha:0, duration:.9, ease:EASE, stagger:.07, clearProps:'transform,opacity,visibility',
+        scrollTrigger:{trigger:trigger, start:'top 85%', once:true}}, vars));
+    }
+    cascade(document.querySelectorAll('#mdTrack .card'), '#mdTrack', {x:70});
+    cascade(document.querySelectorAll('.pr-r'), '.pr', {x:-34});
+    cascade(document.querySelectorAll('.zn-l li'), '.zn-l', {y:18, stagger:.04});
+    cascade(document.querySelectorAll('#fqList .fq-i'), '#fqList', {y:24, stagger:.06});
+    cascade(document.querySelectorAll('.tm'), '.tm-g', {y:30, stagger:.08});
+    cascade(document.querySelectorAll('.pv-i'), '.pv', {y:20, stagger:.08});
+
+    /* 12. boutons magnétiques (souris uniquement) */
+    if(ctx.conditions.fine){
+      document.querySelectorAll('.hero-a .b, .hd-r .b, #modeles .b, #zone .b').forEach(function(b){
+        b.classList.add('mag');
+        var qx = gsap.quickTo(b, 'x', {duration:.45, ease:'power3.out'}), qy = gsap.quickTo(b, 'y', {duration:.45, ease:'power3.out'});
+        function move(e){ var r = b.getBoundingClientRect(); qx((e.clientX - r.left - r.width / 2) * .28); qy((e.clientY - r.top - r.height / 2) * .28); }
+        function leave(){ qx(0); qy(0); gsap.to(b, {scale:1, duration:.3}); }
+        function down(){ gsap.to(b, {scale:.95, duration:.15}); }
+        function up(){ gsap.to(b, {scale:1, duration:.45, ease:'back.out(3)'}); }
+        b.addEventListener('mousemove', move); b.addEventListener('mouseleave', leave);
+        b.addEventListener('pointerdown', down); b.addEventListener('pointerup', up);
+        cleanups.push(function(){
+          b.removeEventListener('mousemove', move); b.removeEventListener('mouseleave', leave);
+          b.removeEventListener('pointerdown', down); b.removeEventListener('pointerup', up);
+          b.classList.remove('mag'); gsap.set(b, {clearProps:'transform'});
+        });
+      });
+    }
+
+    return function(){ cleanups.forEach(function(fn){ fn(); }); };
+  });
+
+  /* recalcule les positions une fois images et police chargées */
+  window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
 })();
 </script>
 </body>
