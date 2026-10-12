@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Constructeur maison individuelle Gard | Les Maisons Bleues</title>
 <meta name="description" content="Constructeur de maisons individuelles dans le Gard rhodanien. Huit modèles de 96 à 160 m², contrat CCMI, un seul interlocuteur du permis aux clés.">
-<meta name="theme-color" content="#001D4B">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E4DA6'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 31 32 14l20 17'/%3E%3Cpath d='M18 27v23h28V27'/%3E%3Cpath d='M28 50V39h8v11' stroke='%23F28C28'/%3E%3C/g%3E%3C/svg%3E">
 <meta name="robots" content="noindex, nofollow">
 <script>/* motion design : on masque le hero le temps que GSAP l'anime (retiré si GSAP ne charge pas) */ if(!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-anim');</script>
 <style>
@@ -401,6 +402,213 @@ html.js-anim{scroll-behavior:auto}
 
 /* boutons magnétiques : GSAP pilote la position, pas de transition CSS sur transform */
 .mag{transition:background .5s var(--e), color .5s var(--e), border-color .5s var(--e)!important}
+
+/* ═══════════════════════════════════════════════════════════
+   REFONTE « BÂTIMENT » — retours client du 12/10/2026
+   Moins de bleu, couleurs vives, logo et marque plus présents,
+   codes des sites du bâtiment (chantier, garanties, devis visible).
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --orange:#F28C28; --orange-h:#FFA247; --orange-t:#B4561A;   /* orange brique, tiré des briques ISOBRIC */
+  --royal:#1E4DA6;                                            /* bleu du logo */
+  --anth:#1C2229; --anth2:#14181E; --encre:#16202B;           /* anthracite à la place du bleu nuit */
+  --creme:#FFFFFF; --creme2:#F3F5F8; --ligne:#E3E8EF;
+  --noir:#16202B; --gris-f:#3B4452; --gris:#5F6876; --sable:#FFB400;
+  --maison:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='black' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 30 32 8l27 22'/%3E%3Cpath d='M12 25v32h40V25'/%3E%3Cpath d='M26 57V41h12v16'/%3E%3C/svg%3E");
+  --trame-c:linear-gradient(rgba(30,77,166,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(30,77,166,.06) 1px,transparent 1px);
+  --trame-f:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+}
+body{background:#fff}
+h1,h2{font-weight:700; letter-spacing:-.03em}
+h3,h4{font-weight:700}
+.h2{font-size:clamp(30px,4vw,54px); line-height:1.06; color:var(--encre)}
+.dark .h2{color:#fff}
+.lead{color:var(--gris-f)}
+.ph{filter:saturate(1.15) contrast(1.04)}
+.n{font-family:var(--f); font-weight:700}
+section[id]{scroll-margin-top:120px}
+
+/* titres de section : pictogramme maison du logo, en orange */
+.sur{font-family:var(--f); font-size:12.5px; font-weight:700; letter-spacing:.14em; color:var(--royal); gap:10px}
+.sur::before{width:18px; height:18px; opacity:1; background:var(--orange); -webkit-mask:var(--maison) center/contain no-repeat; mask:var(--maison) center/contain no-repeat}
+.sur.pale{color:#fff}
+
+/* boutons francs */
+.b{font-weight:700; font-size:15px; border-radius:6px; padding:17px 30px}
+.b-p{background:var(--royal); color:#fff} .b-p:hover{background:#163C85}
+.b-or{background:var(--orange); color:var(--encre)} .b-or:hover{background:var(--orange-h)}
+.b-d{background:var(--encre); color:#fff} .b-d:hover{background:#000}
+.b-wl{background:#fff; color:var(--encre)} .b-wl:hover{background:var(--creme2)}
+.b-o{border-color:var(--ligne); border-width:2px; color:var(--encre)}
+.b-wo{border-width:2px; border-color:rgba(255,255,255,.7)}
+
+/* header blanc permanent, logo agrandi, barre d'infos */
+.hd,.hd[data-solid="true"]{background:#fff; backdrop-filter:none; border-color:var(--ligne); box-shadow:0 8px 26px -20px rgba(22,32,43,.45)}
+.hd .lg-w{display:none} .hd .lg-b,.hd[data-solid="true"] .lg-b{opacity:1; position:static}
+.hd .lg img{height:46px}
+.hd-in{height:80px}
+.nv,.hd[data-solid="true"] .nv{color:var(--encre); font-weight:600; font-size:15px; gap:26px}
+.nv a:hover,.hd[data-solid="true"] .nv a:hover{color:var(--royal)}
+.nv a::after{height:2px; background:var(--orange)}
+.tl,.hd[data-solid="true"] .tl{font-family:var(--f); font-weight:700; font-size:15.5px; color:var(--royal)}
+.tl svg{color:var(--orange)} .tl:hover{color:var(--orange-t)}
+.bg,.hd[data-solid="true"] .bg{border-color:var(--ligne); border-radius:6px} .bg svg,.hd[data-solid="true"] .bg svg{stroke:var(--encre)}
+.ub{background:var(--creme2); border-bottom:1px solid var(--ligne); font-size:12.5px; color:var(--gris-f)}
+.ub-in{display:flex; justify-content:space-between; align-items:center; gap:20px; height:36px}
+.ub b{color:var(--encre)} .st{color:var(--sable); letter-spacing:1px}
+.mn{background:#fff}
+.mn a.r{font-weight:600}
+.mn a.r svg{color:var(--orange)}
+
+/* hero : photo lumineuse, titre blanc et gras */
+.hero{background:var(--anth)}
+.hero-bg::after{background:linear-gradient(90deg,rgba(12,16,22,.8) 0%,rgba(12,16,22,.5) 45%,rgba(12,16,22,.12) 100%),linear-gradient(0deg,rgba(12,16,22,.55) 0%,transparent 45%)}
+.hero-in{padding-top:170px; padding-bottom:clamp(110px,14vh,150px)}
+.hero h1{font-size:clamp(36px,5.6vw,78px); line-height:1.02; letter-spacing:-.035em; max-width:15ch}
+.hero-sub{color:#fff; font-weight:500; opacity:.92}
+.hero-trust{display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:30px; font-size:14.5px; font-weight:600; color:#fff}
+.hero-trust > span{display:inline-flex; align-items:center; gap:8px}
+.hero-trust svg{color:var(--orange); flex:none}
+.hero-scroll{display:none}
+
+/* chiffres-clés : carte blanche à cheval sur le hero */
+.pv{background:transparent; color:var(--encre); margin-top:-78px; z-index:4}
+.pv-g{background:#fff; border-top:4px solid var(--orange); border-radius:8px; box-shadow:0 34px 60px -34px rgba(22,32,43,.45); grid-template-columns:repeat(4,1fr)}
+.pv-i,.pv-i:not(:first-child){padding:26px 28px 28px; border-right:1px solid var(--ligne)}
+.pv-ic{color:var(--orange); margin-bottom:12px; display:block}
+.pv-i b{color:var(--royal); font-weight:700}
+.pv-i span{color:var(--gris)}
+
+/* bandeau défilant couleur brique */
+.mq{background:var(--orange); border:0; padding:16px 0; margin-top:56px}
+.mq-g span{color:var(--encre); font-family:var(--f); font-weight:700; font-size:14px; letter-spacing:.12em}
+.mq-g i{color:#fff; opacity:1}
+
+/* intro */
+.in-t{font-weight:700; color:var(--encre)}
+.in-b strong{color:var(--royal)}
+.in-m .bq{background:var(--orange); color:var(--encre); border-radius:6px}
+.in-m .bq b{font-family:var(--f); font-weight:700}
+
+/* trame de plan d'architecte sur les sections claires */
+#prestations,#zone{background-image:var(--trame-c)!important; background-size:32px 32px!important}
+
+/* sections sombres : anthracite, trame de plan, photos de chantier */
+.dark{background-color:var(--anth); background-image:var(--trame-f); background-size:40px 40px}
+#methode{position:relative; overflow:hidden}
+#methode > .w{position:relative; z-index:1}
+#methode::after{content:""; position:absolute; right:-6%; bottom:-10%; width:min(52vw,680px); aspect-ratio:1; background:rgba(255,255,255,.04); -webkit-mask:var(--maison) center/contain no-repeat; mask:var(--maison) center/contain no-repeat; pointer-events:none}
+.mt-i .n{color:var(--orange); font-family:var(--f); font-weight:700; font-size:13px; letter-spacing:.1em}
+.mt-i h3{font-weight:700}
+.js-anim .mt-l::after{background:var(--orange)}
+#contact{background-image:linear-gradient(90deg,rgba(18,22,28,.95) 0%,rgba(18,22,28,.86) 55%,rgba(18,22,28,.72) 100%),url("/maisons-bleues/assets/img/chantier-2.jpg"); background-size:cover; background-position:center}
+.ct-i a{color:var(--orange-h)}
+
+/* garanties */
+.gar{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; margin-top:52px}
+.gar-i{display:flex; flex-direction:column; gap:6px; padding:20px 18px; border:1px solid rgba(255,255,255,.14); border-radius:8px; background:rgba(255,255,255,.04)}
+.gar-i svg{color:var(--orange); margin-bottom:6px}
+.gar-i b{font-size:15px; color:#fff}
+.gar-i span{font-size:13px; color:rgba(255,255,255,.66); line-height:1.45}
+
+/* modèles */
+.card{border-radius:8px; overflow:hidden; border-color:var(--ligne)}
+.card-t{background:var(--orange); color:var(--encre); font-family:var(--f); font-weight:700; letter-spacing:.08em; border-radius:4px}
+.card-b h3{font-weight:700; color:var(--encre)}
+.card-s{font-family:var(--f)} .card-s b{color:var(--royal)}
+.card-l{color:var(--royal)}
+.md-nav button{border-radius:6px; color:var(--encre)}
+.md-nav button:hover{background:var(--orange); border-color:var(--orange); color:var(--encre)}
+
+/* réalisations */
+.rz-c b{font-weight:700}
+.rz-c{background:linear-gradient(to top,rgba(12,16,22,.88),rgba(12,16,22,.25) 60%,transparent)}
+
+/* prestations : icônes métier */
+.pr-r h3{display:flex; align-items:center; gap:14px; font-weight:700}
+.pr-ic{width:46px; height:46px; border-radius:8px; background:var(--orange); color:var(--encre); display:grid; place-content:center; flex:none}
+.pr-r .ar{color:var(--orange)}
+
+/* bande appel à l'action */
+.cta{position:relative; overflow:hidden; background:var(--orange); color:var(--encre)}
+.cta::after{content:""; position:absolute; right:4%; top:50%; width:240px; aspect-ratio:1; transform:translateY(-50%); background:rgba(255,255,255,.22); -webkit-mask:var(--maison) center/contain no-repeat; mask:var(--maison) center/contain no-repeat; pointer-events:none}
+.cta-in{position:relative; z-index:1; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px 40px; padding-top:clamp(40px,5vw,60px); padding-bottom:clamp(40px,5vw,60px)}
+.cta-t{font-size:clamp(24px,3vw,38px); font-weight:700; letter-spacing:-.025em; line-height:1.1}
+.cta-s{font-weight:500; margin-top:10px; max-width:52ch}
+.cta-a{display:flex; flex-wrap:wrap; gap:12px}
+
+/* FAQ, zone, avis, formulaire */
+.fq-q{font-weight:600}
+.fq-i[data-open="true"] .ic{background:var(--orange); border-color:var(--orange); color:var(--encre)}
+.zn-l li{font-weight:600}
+.zn-l li i{color:var(--orange-t); font-weight:700}
+.av-sc{background:var(--royal); border-radius:8px}
+.av-n b{font-weight:700}
+.tm,.av-ft{border-radius:8px}
+.tm-av{background:var(--orange); color:var(--encre); font-weight:700}
+.av-ft blockquote::before{color:var(--orange)}
+.fm{border-radius:8px}
+.rd button{border-radius:6px}
+.rd button[aria-pressed="true"]{background:var(--orange); border-color:var(--orange); color:var(--encre)}
+#lForm button[type="submit"]{background:var(--orange); color:var(--encre)}
+#lForm button[type="submit"]:hover{background:var(--orange-h)}
+
+/* footer anthracite, logo agrandi */
+.ft{background:var(--anth2)}
+.ft-b img{height:46px}
+
+/* barre mobile, sommaire, progression */
+.mb a.p{background:var(--orange); color:var(--encre)}
+.idx a[data-active="true"]{color:var(--royal)} .idx a[data-active="true"]::before{background:var(--orange)}
+.prog{background:var(--orange); height:3px}
+
+@media (max-width:960px){
+  .ub{display:none}
+  .hd-in{height:70px}
+  .hd .lg img{height:36px}
+  .mn{inset:70px 0 auto 0; max-height:calc(100dvh - 70px)}
+  section[id]{scroll-margin-top:80px}
+  .hero-in{padding-top:120px}
+  .gar{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:620px){
+  .pv{margin-top:-56px}
+  .pv-g{grid-template-columns:1fr}
+  .pv-i,.pv-i:not(:first-child){border-right:0!important; border-bottom:1px solid var(--ligne); padding:20px 22px!important}
+  .pv-i:last-child{border-bottom:0}
+  .gar{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-trust{font-size:13.5px}
+  .cta::after{width:150px; right:-30px; top:auto; bottom:-30px; transform:none}
+  .pr-ic{width:40px; height:40px}
+}
+
+/* header : paliers pour que logo, menu, téléphone et devis tiennent toujours */
+.nv a{white-space:nowrap}
+.hd .lg{flex:none}
+.ub-tel{font-weight:700; color:var(--royal)} .ub-tel:hover{color:var(--orange-t)}
+.mn{inset:118px 0 auto 0; max-height:calc(100dvh - 118px)}
+@media (max-width:1400px){ .nv{gap:20px; font-size:14.5px} .hd-in{gap:26px} }
+@media (max-width:1280px){ .tl{display:none} }
+@media (max-width:1150px){ .nv{display:none} .hd-r{margin-left:auto} .bg{display:flex; margin-left:0} }
+@media (max-width:960px){ .hd-r{display:flex; margin-left:auto} .bg{margin-left:0} .mn{inset:70px 0 auto 0; max-height:calc(100dvh - 70px)} .hd-r .b{padding:12px 18px; font-size:14px} }
+@media (max-width:620px){ .hd-r{display:none} .bg{margin-left:auto} }
+
+/* mobile : chiffres-clés en grille 2 x 2, garanties resserrées */
+@media (max-width:620px){
+  .pv .pv-g{grid-template-columns:1fr 1fr}
+  .pv .pv-i,.pv .pv-i:not(:first-child){padding:16px 14px 18px!important; border-bottom:1px solid var(--ligne)}
+  .pv .pv-i:nth-child(odd){border-right:1px solid var(--ligne)!important}
+  .pv .pv-i:nth-child(n+3){border-bottom:0}
+  .pv-ic{width:22px; height:22px; margin-bottom:8px}
+  .pv-i b{font-size:18px; line-height:1.15}
+  .pv-i span{font-size:12.5px; line-height:1.4; margin-top:6px}
+  .gar{gap:8px; margin-top:36px}
+  .gar-i{padding:14px 12px}
+  .gar-i svg{width:22px; height:22px; margin-bottom:2px}
+  .gar-i b{font-size:14px}
+  .gar-i span{font-size:12px}
+  .hero .sur{letter-spacing:.1em}
+}
 </style>
 <script type="application/ld+json">
 {
@@ -462,10 +670,16 @@ html.js-anim{scroll-behavior:auto}
 
 <!-- ═══════════ HEADER ═══════════ -->
 <header class="hd" id="hd" data-solid="false">
+  <div class="ub">
+    <div class="w ub-in">
+      <span>Constructeur de maisons individuelles <b>depuis 2004</b> · Saint-Alexandre (Gard)</span>
+      <span><span class="st" aria-hidden="true">★★★★★</span> <b>4,8/5</b> sur Google · Membre FFC MI · <a class="ub-tel" href="tel:+33466330132">04 66 33 01 32</a></span>
+    </div>
+  </div>
   <div class="w hd-in">
     <a class="lg" href="#top" aria-label="Les Maisons Bleues, retour à l'accueil">
-      <img class="lg-w" src="/maisons-bleues/assets/logo-blanc.png" alt="Les Maisons Bleues, constructeur de maisons individuelles dans le Gard" width="1055" height="272">
-      <img class="lg-b" src="/maisons-bleues/assets/logo-bleu.png" alt="" aria-hidden="true" width="1055" height="272">
+      <img class="lg-w" src="/maisons-bleues/assets/logo-blanc-c.png" alt="" aria-hidden="true" width="989" height="168">
+      <img class="lg-b" src="/maisons-bleues/assets/logo-bleu-c.png" alt="Les Maisons Bleues, constructeur de maisons individuelles dans le Gard" width="989" height="168">
     </a>
     <nav class="nv" aria-label="Navigation principale">
       <a href="#modeles">Nos modèles</a>
@@ -479,7 +693,7 @@ html.js-anim{scroll-behavior:auto}
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M15.5 21A13.5 13.5 0 0 1 3 8.5V6a1.5 1.5 0 0 1 1.5-1.5h2.2a1.5 1.5 0 0 1 1.47 1.2l.6 3a1.5 1.5 0 0 1-.75 1.62l-1.3.72a10.5 10.5 0 0 0 5.24 5.24l.72-1.3a1.5 1.5 0 0 1 1.62-.75l3 .6A1.5 1.5 0 0 1 19.5 16.3v2.2A1.5 1.5 0 0 1 18 20h-2.5Z"/></svg>
         04 66 33 01 32
       </a>
-      <a class="b b-w" href="#contact">Étudier mon projet</a>
+      <a class="b b-or" href="#contact">Devis gratuit</a>
     </div>
     <button class="bg" id="bg" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mn">
       <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="#fff" stroke-width="1.5" aria-hidden="true"><path d="M0 1h18M0 6h18M0 11h18"/></svg>
@@ -492,8 +706,8 @@ html.js-anim{scroll-behavior:auto}
     <a class="r" href="#prestations">Prestations <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></a>
     <a class="r" href="#questions">Questions fréquentes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></a>
     <div class="mn-f">
-      <a class="b b-p" href="#contact">Étudier mon projet</a>
-      <a class="b b-o" href="tel:+33466330132">04 66 33 01 32</a>
+      <a class="b b-or" href="#contact">Demander un devis gratuit</a>
+      <a class="b b-o" href="tel:+33466330132">Appeler le 04 66 33 01 32</a>
     </div>
   </div>
 </header>
@@ -516,15 +730,20 @@ html.js-anim{scroll-behavior:auto}
     </video>
   </div>
   <div class="w hero-in">
-    <span class="sur pale">Saint-Alexandre · Gard rhodanien</span>
+    <span class="sur pale">Les Maisons Bleues · Constructeur dans le Gard</span>
     <h1>La maison où vous passerez les trente prochaines années</h1>
     <p class="hero-sub">Dessinée pour votre terrain, livrée au prix et à la date signés au contrat.</p>
     <div class="hero-a">
-      <a class="b b-w" href="#contact">
-        Étudier mon projet
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+      <a class="b b-or" href="#contact">
+        Demander un devis gratuit
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
       </a>
-      <a class="b b-wo" href="#modeles">Voir les 8 modèles</a>
+      <a class="b b-wo" href="#modeles">Voir nos 8 modèles</a>
+    </div>
+    <div class="hero-trust">
+      <span><span class="st" aria-hidden="true">★★★★★</span> 4,8/5 sur 30 avis Google</span>
+      <span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 7.9 8 9 4.6-1.1 8-4.6 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg> Garantie décennale</span>
+      <span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg> Contrat CCMI, prix ferme</span>
     </div>
   </div>
   <div class="hero-scroll" aria-hidden="true"><span class="ln"></span>Défiler</div>
@@ -532,12 +751,12 @@ html.js-anim{scroll-behavior:auto}
 
 <!-- ═══════════ PREUVE ═══════════ -->
 <div class="pv">
-  <div class="w pv-g">
-    <div class="pv-i"><b class="n">4,8 / 5</b><span>sur 30 avis Google laissés par nos clients</span></div>
-    <div class="pv-i"><b class="n">30 ans</b><span>d'expérience dans la construction en Gard rhodanien</span></div>
-    <div class="pv-i"><b>Membre FFC MI</b><span>Fédération Française des Constructeurs de Maisons Individuelles</span></div>
-    <div class="pv-i"><b>Contrat CCMI</b><span>Prix forfaitaire et délai garantis, norme RE 2020</span></div>
-  </div>
+  <div class="w"><div class="pv-g">
+    <div class="pv-i"><svg class="pv-ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2-4.6-4.4 6.3-.9Z"/></svg><b class="n">4,8 / 5</b><span>sur 30 avis Google laissés par nos clients</span></div>
+    <div class="pv-i"><svg class="pv-ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h20M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg><b class="n">30 ans</b><span>d'expérience dans la construction en Gard rhodanien</span></div>
+    <div class="pv-i"><svg class="pv-ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14 -1.5 8 5-3 5 3-1.5-8"/></svg><b>Membre FFC MI</b><span>Fédération Française des Constructeurs de Maisons Individuelles</span></div>
+    <div class="pv-i"><svg class="pv-ic" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="m10 15 2 2 4-4"/></svg><b>Contrat CCMI</b><span>Prix forfaitaire et délai garantis, norme RE 2020</span></div>
+  </div></div>
 </div>
 
 <!-- ═══════════ INTRO ÉDITORIALE ═══════════ -->
@@ -606,6 +825,14 @@ html.js-anim{scroll-behavior:auto}
       <li class="mt-i"><span class="n">Étape 04</span><h3>Le chantier, en ISOBRIC</h3><p>Fondations, gros œuvre en ISOBRIC, charpente, couverture, puis second œuvre. Nos artisans sont les mêmes d'un chantier à l'autre. Vous venez constater l'avancement quand vous voulez.</p></li>
       <li class="mt-i"><span class="n">Étape 05</span><h3>Réception et garanties</h3><p>Visite de pré-réception, levée des réserves, remise des clés. Puis les garanties : parfait achèvement un an, bon fonctionnement deux ans, décennale dix ans.</p></li>
     </ol>
+    <div class="gar rv" aria-label="Nos garanties">
+      <div class="gar-i"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h4"/></svg><b>Contrat CCMI</b><span>Prix ferme et définitif</span></div>
+      <div class="gar-i"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 7.9 8 9 4.6-1.1 8-4.6 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><b>Garantie décennale</b><span>10 ans sur la structure</span></div>
+      <div class="gar-i"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><b>Garantie de livraison</b><span>À prix et délai convenus</span></div>
+      <div class="gar-i"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 3.5 5 6.3 5 9a5 5 0 0 1-10 0c0-2.7 2-5.5 5-9Z"/><path d="M12 15v-3"/></svg><b>Norme RE 2020</b><span>Maison économe en énergie</span></div>
+      <div class="gar-i"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="M3 10h18M3 15h18M9 5v5M15 10v5M9 15v4"/></svg><b>Brique ISOBRIC</b><span>Inertie et isolation</span></div>
+      <div class="gar-i"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 8 5-3 5 3-1.5-8"/></svg><b>Membre FFC MI</b><span>Fédération des constructeurs</span></div>
+    </div>
   </div>
 </section>
 
@@ -634,11 +861,25 @@ html.js-anim{scroll-behavior:auto}
       <p class="lead">Nous intervenons aussi sur l'existant et sur les extérieurs, souvent pour d'anciens clients, parfois sur des maisons que nous n'avons pas construites.</p>
     </div>
     <div class="pr rv">
-      <div class="pr-r"><h3>Rénovation de maison</h3><p>Reprise complète ou partielle : cloisons, isolation, électricité, plomberie, sols et finitions. Y compris sur du bâti ancien en pierre, fréquent dans le Gard.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
-      <div class="pr-r"><h3>Extension et surélévation</h3><p>Agrandissement de plain-pied ou surélévation, avec raccord de charpente et de façade. Déclaration préalable ou permis selon la surface créée.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
-      <div class="pr-r"><h3>Piscines sur mesure</h3><p>Bassins avec local technique, plages, margelles et abords. Dimensionnés selon la parcelle plutôt que sur un format standard, démarches administratives incluses.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
-      <div class="pr-r"><h3>Pergolas et vérandas</h3><p>Pergolas bioclimatiques à lames orientables, vérandas en aluminium, carports. Structures posées et raccordées, motorisation et stores selon les besoins.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
-      <div class="pr-r"><h3>Aménagement extérieur</h3><p>Terrasses, murs de clôture, portails, allées et enrochements. Le plus souvent dans la continuité du chantier, ce qui évite un second déplacement d'engins.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
+      <div class="pr-r"><h3><span class="pr-ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 4 6 6-9 9H5v-6z"/><path d="m11 7 6 6"/><path d="M3 21h8"/><C:/Program Files/Git/svg></span>Rénovation de maison</h3><p>Reprise complète ou partielle : cloisons, isolation, électricité, plomberie, sols et finitions. Y compris sur du bâti ancien en pierre, fréquent dans le Gard.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
+      <div class="pr-r"><h3><span class="pr-ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 10 5l7 6"/><path d="M5 9v11h10V9"/><path d="M19 8v8M15 12h8"/><C:/Program Files/Git/svg></span>Extension et surélévation</h3><p>Agrandissement de plain-pied ou surélévation, avec raccord de charpente et de façade. Déclaration préalable ou permis selon la surface créée.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
+      <div class="pr-r"><h3><span class="pr-ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16c2 0 2-1.5 4-1.5S8 16 10 16s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M2 20c2 0 2-1.5 4-1.5S8 20 10 20s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M8 13V5a2 2 0 0 1 4 0M16 13V5a2 2 0 0 0-4 0"/><C:/Program Files/Git/svg></span>Piscines sur mesure</h3><p>Bassins avec local technique, plages, margelles et abords. Dimensionnés selon la parcelle plutôt que sur un format standard, démarches administratives incluses.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
+      <div class="pr-r"><h3><span class="pr-ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M5 6v14M19 6v14M3 10h18"/><path d="M8 6v4M12 6v4M16 6v4"/><C:/Program Files/Git/svg></span>Pergolas et vérandas</h3><p>Pergolas bioclimatiques à lames orientables, vérandas en aluminium, carports. Structures posées et raccordées, motorisation et stores selon les besoins.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
+      <div class="pr-r"><h3><span class="pr-ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-6"/><path d="M12 15a5 5 0 0 0 5-5c0-3-2.5-6-5-7-2.5 1-5 4-5 7a5 5 0 0 0 5 5Z"/><path d="M3 21h18"/><C:/Program Files/Git/svg></span>Aménagement extérieur</h3><p>Terrasses, murs de clôture, portails, allées et enrochements. Le plus souvent dans la continuité du chantier, ce qui évite un second déplacement d'engins.</p><svg class="ar" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BANDE APPEL À L'ACTION ═══════════ -->
+<section class="cta" aria-label="Demande de devis">
+  <div class="w cta-in">
+    <div>
+      <p class="cta-t">Un projet de construction dans le Gard&nbsp;?</p>
+      <p class="cta-s">Étude de votre terrain et devis gratuits, sans engagement. Réponse rapide par un interlocuteur unique.</p>
+    </div>
+    <div class="cta-a">
+      <a class="b b-d" href="#contact">Demander mon devis gratuit</a>
+      <a class="b b-wl" href="tel:+33466330132"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15.5 21A13.5 13.5 0 0 1 3 8.5V6a1.5 1.5 0 0 1 1.5-1.5h2.2a1.5 1.5 0 0 1 1.47 1.2l.6 3a1.5 1.5 0 0 1-.75 1.62l-1.3.72a10.5 10.5 0 0 0 5.24 5.24l.72-1.3a1.5 1.5 0 0 1 1.62-.75l3 .6A1.5 1.5 0 0 1 19.5 16.3v2.2A1.5 1.5 0 0 1 18 20h-2.5Z"/></svg>04 66 33 01 32</a>
     </div>
   </div>
 </section>
@@ -775,7 +1016,7 @@ html.js-anim{scroll-behavior:auto}
   <div class="w">
     <div class="ft-g">
       <div class="ft-b">
-        <img src="/maisons-bleues/assets/logo-blanc.png" alt="Les Maisons Bleues" width="1055" height="272">
+        <img src="/maisons-bleues/assets/logo-blanc-c.png" alt="Les Maisons Bleues" width="989" height="168">
         <p>Constructeur de maisons individuelles dans le Gard rhodanien depuis trente ans. Membre de la Fédération Française des Constructeurs de Maisons Individuelles.</p>
         <div class="so">
           <a href="https://www.instagram.com/lesmaisonsbleues/" aria-label="Instagram de Les Maisons Bleues" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></a>
@@ -895,7 +1136,7 @@ html.js-anim{scroll-behavior:auto}
     gsap.to('#heroBg', {yPercent:18, ease:'none', scrollTrigger:{trigger:'#top', start:'top top', end:'bottom top', scrub:true}});
     /* index latéral : section active + couleur selon fond */
     /* couleur du sommaire selon le fond réellement présent derrière lui (vidéo et sections bleu nuit = texte clair) */
-    var darkZones = document.querySelectorAll('.hero, .pv, section.dark, footer.ft');
+    var darkZones = document.querySelectorAll('.hero, section.dark, .cta, footer.ft');
     function idxTone(){
       var r = idx.getBoundingClientRect(); if(!r.height) return;
       var mid = r.top + r.height / 2, dark = false;
@@ -964,7 +1205,6 @@ html.js-anim{scroll-behavior:auto}
 
     /* 2. entrée : header en cascade, titre révélé mot par mot avec reflet */
     var h1 = document.querySelector('.hero h1');
-    h1.classList.add('sheen-l');
     var h1Words = split(h1, true);
     gsap.set(['.hd', '.hero-in'], {visibility:'visible'});
     gsap.timeline({defaults:{ease:EASE}})
@@ -974,6 +1214,7 @@ html.js-anim{scroll-behavior:auto}
       .from(h1Words, {yPercent:115, duration:1.15, stagger:.07}, '<.1')
       .from('.hero-sub', {y:16, autoAlpha:0, duration:.9}, '-=.75')
       .from('.hero-a .b', {y:16, autoAlpha:0, duration:.9, stagger:.1}, '-=.75')
+      .from('.hero-trust > span', {y:12, autoAlpha:0, duration:.7, stagger:.08}, '-=.6')
       .from('.hero-scroll', {autoAlpha:0, duration:.8}, '-=.5');
 
     /* 3. le hero s'efface au scroll, la vidéo zoome légèrement */
@@ -1025,7 +1266,6 @@ html.js-anim{scroll-behavior:auto}
 
     /* 7. titres de section révélés mot par mot (reflet sur les fonds sombres) */
     document.querySelectorAll('h2.h2').forEach(function(h){
-      if(h.closest('.dark')) h.classList.add('sheen-d');
       gsap.from(split(h, true), {yPercent:115, duration:1.1, ease:EASE, stagger:.06,
         scrollTrigger:{trigger:h, start:'top 88%', once:true}});
     });
