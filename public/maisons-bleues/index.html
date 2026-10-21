@@ -650,6 +650,16 @@ section[id]{scroll-margin-top:120px}
 
 /* plan sur mobile : le dessin rétrécit, on garde le tracé et les cotes lisibles */
 @media (max-width:620px){ .hero--plan .pl-ann,.hero--plan .pl-cart{display:none} .hero--plan .pl-txt text{font-size:25px} }
+
+/* sommaire latéral : carte blanche, texte normal et contrasté (retour client) */
+.idx{left:20px; gap:2px; padding:12px 14px; background:#fff; border:1px solid var(--ligne); border-radius:10px; box-shadow:0 18px 40px -24px rgba(22,32,43,.4)}
+.idx a,.idx.on-dark a{font-family:var(--f); font-size:13.5px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--gris-f); opacity:1; padding:7px 4px; gap:10px}
+.idx a::before,.idx.on-dark a::before{width:12px; height:2px; background:var(--ligne)}
+.idx a:hover,.idx.on-dark a:hover{color:var(--royal)}
+.idx a[data-active="true"],.idx.on-dark a[data-active="true"]{color:var(--royal)}
+.idx a[data-active="true"]::before,.idx.on-dark a[data-active="true"]::before{width:22px; background:var(--orange)}
+.hero h1,.hero--plan h1{max-width:22ch; font-size:clamp(34px,3.5vw,56px)}
+@media (min-width:901px){ .hero--plan{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)} }
 </style>
 <script type="application/ld+json">
 {
@@ -807,8 +817,8 @@ section[id]{scroll-margin-top:120px}
   </div>
   <div class="w hero-in">
     <span class="sur">Les Maisons Bleues · Constructeur dans le Gard</span>
-    <h1>La maison où vous passerez les trente prochaines années</h1>
-    <p class="hero-sub">Dessinée pour votre terrain, livrée au prix et à la date signés au contrat.</p>
+    <h1>Votre constructeur de maisons individuelles dans le Gard</h1>
+    <p class="hero-sub">Des maisons dessinées pour votre terrain, livrées au prix et à la date signés au contrat.</p>
     <div class="hero-a">
       <a class="b b-or" href="#contact">
         Demander un devis gratuit
