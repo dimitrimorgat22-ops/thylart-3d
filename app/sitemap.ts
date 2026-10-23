@@ -1,20 +1,16 @@
 import type { MetadataRoute } from "next"
+import { SERVICE_SLUGS } from "./services"
+import { SITE_URL } from "./content"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.thaylart.com"
-
   return [
-    {
-      url: baseUrl,
+    { url: SITE_URL, lastModified: new Date(), changeFrequency: "monthly", priority: 1 },
+    ...SERVICE_SLUGS.map((slug) => ({
+      url: `${SITE_URL}/${slug}`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/mentions-legales`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.2,
-    },
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
+    { url: `${SITE_URL}/mentions-legales`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.2 },
   ]
 }

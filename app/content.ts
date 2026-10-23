@@ -24,7 +24,7 @@ export const FAQ = [
   },
   {
     q: "Combien de temps faut-il pour créer mon site ?",
-    a: "Le délai dépend du nombre de pages et de la disponibilité de vos contenus (textes, photos). Il est fixé noir sur blanc dans le devis, avant le moindre engagement.",
+    a: "Comptez 2 à 3 semaines pour un site vitrine, une fois vos contenus reçus (textes, photos, logo). Pour une refonte ou une boutique en ligne, le délai dépend du projet et il est fixé noir sur blanc dans le devis, avant le moindre engagement.",
   },
   {
     q: "Mon site sera-t-il visible sur Google ?",
@@ -37,5 +37,9 @@ export const FAQ = [
   {
     q: "J'ai déjà un site, mais il ne m'apporte pas de clients. Par où commencer ?",
     a: "Le diagnostic de présence en ligne est fait pour ça : j'analyse votre site, votre fiche Google, vos avis et vos concurrents, puis je vous remets un plan d'action priorisé. Vous pouvez ensuite le mettre en œuvre vous-même, ou me confier une refonte.",
+  },
+  {
+    q: "Et une fois le site en ligne ?",
+    a: "Je propose un forfait de maintenance mensuel pour les mises à jour, les petites modifications et le suivi technique. Il est facultatif, et son tarif vous est communiqué sur demande.",
   },
 ]

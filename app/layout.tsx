@@ -72,7 +72,7 @@ const jsonLd = {
       logo: `${SITE_URL}/opengraph-image`,
       image: `${SITE_URL}/opengraph-image`,
       email: "dimitrimorgat@thaylart.com",
-      telephone: "+33662233699",
+      telephone: "+33665854200",
       priceRange: "€€",
       founder: { "@type": "Person", name: "Dimitri Morgat", jobTitle: "Créateur de sites internet" },
       address: {
