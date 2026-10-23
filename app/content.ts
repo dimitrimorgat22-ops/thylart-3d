@@ -40,6 +40,6 @@ export const FAQ = [
   },
   {
     q: "Et une fois le site en ligne ?",
-    a: "Je propose un forfait de maintenance mensuel pour les mises à jour, les petites modifications et le suivi technique. Il est facultatif, et son tarif vous est communiqué sur demande.",
+    a: "Je propose un forfait de maintenance facultatif à 50 € par mois, sans engagement : hébergement, nom de domaine, sécurité, sauvegardes et jusqu'à 1 h de petites modifications par mois. Au-delà, les modifications sont chiffrées à part.",
   },
 ]
